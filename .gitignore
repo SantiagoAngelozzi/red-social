@@ -4,3 +4,5 @@ dist/
 .angular/
 coverage/
 back/uploads/
+postman/
+.postman/

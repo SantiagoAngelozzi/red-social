@@ -1,0 +1,46 @@
+<div class="feed">
+  <header>
+    <h1 class="feed-titulo">Publicaciones</h1>
+    <p class="feed-bajada">Lo último de la comunidad.</p>
+  </header>
+
+  <!-- Formulario para crear una publicación (por ahora solo visual) -->
+  <div class="crear">
+    <div class="crear-fila">
+      <div class="avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" /></svg>
+      </div>
+
+      <div class="crear-campos">
+        <input class="campo-input input-titulo" placeholder="Título de tu publicación" aria-label="Título" />
+        <textarea class="campo-input" rows="3" placeholder="¿Qué jugada querés contar?" aria-label="Mensaje"></textarea>
+      </div>
+    </div>
+
+    <div class="crear-acciones">
+      <span class="adjuntar">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="3" />
+          <circle cx="9" cy="10" r="2" />
+          <path d="m21 16-5-5-9 9" />
+        </svg>
+        Agregar imagen
+      </span>
+
+      <button type="button" class="btn btn-chico">
+        <span>Publicar</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Pestañas de orden (por ahora solo visual) -->
+  <div class="orden">
+    <button type="button" class="orden-tab activo">Más recientes</button>
+    <button type="button" class="orden-tab orden-naranja">Más me gusta</button>
+  </div>
+
+  <div class="vacio">
+    <h2>La cancha está vacía</h2>
+    <p>Todavía no hay publicaciones.</p>
+  </div>
+</div>

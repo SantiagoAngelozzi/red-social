@@ -1,0 +1,206 @@
+.shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Barra lateral ---------- */
+
+.lateral {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem 1rem;
+  background: rgba(18, 31, 69, 0.85);
+  border-right: 2px solid var(--borde);
+}
+
+.lateral-logo {
+  padding: 0 0.5rem;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem 1rem;
+  border-radius: 14px;
+  color: var(--texto-suave);
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-link svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-link:hover {
+  background: var(--superficie-2);
+  color: var(--texto);
+}
+
+/* Link activo: "placa" azul inclinada con borde de boost */
+.nav-link.activo {
+  background: var(--azul);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--azul-oscuro), inset 4px 0 0 var(--boost);
+}
+
+.jugador {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: auto;
+  padding: 0.75rem;
+  border-radius: 16px;
+  background: var(--superficie-2);
+  border: 2px solid var(--borde);
+}
+
+.jugador-datos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.jugador-nombre {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jugador-usuario {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+  border: 3px solid var(--azul-claro);
+}
+
+.avatar svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.salir {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.salir:hover {
+  background: rgba(255, 77, 109, 0.15);
+  color: var(--error);
+}
+
+.salir svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Contenido ---------- */
+
+.contenido {
+  min-width: 0;
+  padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+}
+
+/* ---------- Celular: barra de navegación abajo ---------- */
+
+@media (max-width: 800px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .lateral {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-right: none;
+    border-top: 2px solid var(--borde);
+  }
+
+  .lateral-logo,
+  .jugador-datos,
+  .jugador .avatar {
+    display: none;
+  }
+
+  .nav {
+    flex-direction: row;
+    flex: 1;
+  }
+
+  .nav-link {
+    flex: 1;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .jugador {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+
+  .contenido {
+    padding-bottom: 6rem;
+  }
+}

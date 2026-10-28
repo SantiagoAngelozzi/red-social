@@ -1,1 +1,267 @@
-/* You can add global styles to this file, and also import other style files */
+/* =========================================================
+   ROCKET SOCIAL - estilos globales
+   Paleta: equipo azul vs equipo naranja, como en una partida.
+   ========================================================= */
+
+:root {
+  /* Fondo de cancha de noche */
+  --noche: #0a1430;
+  --superficie: #121f45;
+  --superficie-2: #1a2b5c;
+  --borde: #26397a;
+
+  /* Equipos */
+  --azul: #1e7bff;
+  --azul-oscuro: #0b4fb8;
+  --azul-claro: #6fb1ff;
+  --naranja: #ff8a1f;
+  --naranja-oscuro: #c45a00;
+
+  /* Boost */
+  --boost: #ffd23f;
+
+  /* Texto */
+  --texto: #eaf1ff;
+  --texto-suave: #8fa3d1;
+
+  /* Estados */
+  --error: #ff4d6d;
+  --ok: #3ddc97;
+
+  --fuente-display: 'Russo One', 'Rubik', system-ui, sans-serif;
+  --fuente-texto: 'Rubik', system-ui, sans-serif;
+
+  --radio: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--fuente-texto);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--noche);
+  /* Arco azul a la izquierda, arco naranja a la derecha */
+  background-image:
+    radial-gradient(60rem 40rem at -10% 10%, rgba(30, 123, 255, 0.18), transparent 60%),
+    radial-gradient(50rem 40rem at 110% 90%, rgba(255, 138, 31, 0.14), transparent 60%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-display);
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0;
+}
+
+a {
+  color: var(--azul-claro);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--boost);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BOTONES - inclinados como el HUD del juego, con sombra
+   "de piso" que se aplasta al apretar.
+   ========================================================= */
+
+.btn {
+  --color: var(--azul);
+  --sombra: var(--azul-oscuro);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.7rem 1.6rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--color);
+  color: #fff;
+  font-family: var(--fuente-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transform: skewX(-10deg);
+  box-shadow: 0 5px 0 var(--sombra);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+}
+
+/* El contenido se endereza para que el texto no quede inclinado */
+.btn > * {
+  transform: skewX(10deg);
+}
+
+.btn:hover {
+  filter: brightness(1.12);
+}
+
+.btn:active {
+  transform: skewX(-10deg) translateY(4px);
+  box-shadow: 0 1px 0 var(--sombra);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.6) brightness(0.8);
+}
+
+.btn-naranja {
+  --color: var(--naranja);
+  --sombra: var(--naranja-oscuro);
+}
+
+.btn-peligro {
+  --color: var(--error);
+  --sombra: #a3203a;
+}
+
+.btn-fantasma {
+  --color: transparent;
+  --sombra: var(--borde);
+  border: 2px solid var(--borde);
+  color: var(--texto);
+}
+
+.btn-fantasma:hover {
+  --color: var(--superficie-2);
+}
+
+.btn-bloque {
+  width: 100%;
+}
+
+.btn-chico {
+  min-height: 40px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   CAMPOS DE FORMULARIO
+   ========================================================= */
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.campo-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.campo-caja {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.campo-icono {
+  position: absolute;
+  left: 14px;
+  width: 20px;
+  height: 20px;
+  color: var(--texto-suave);
+  pointer-events: none;
+}
+
+.campo-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--borde);
+  border-radius: 14px;
+  background: rgba(10, 20, 48, 0.75);
+  font-size: 1rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo-input::placeholder {
+  color: var(--texto-suave);
+  opacity: 0.8;
+}
+
+.campo-input:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 4px rgba(30, 123, 255, 0.25);
+}
+
+.campo-caja .campo-icono + .campo-input {
+  padding-left: 46px;
+}
+
+.campo.invalido .campo-input {
+  border-color: var(--error);
+}
+
+.campo.invalido .campo-input:focus {
+  box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.25);
+}
+
+.campo-error {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--error);
+}
+
+textarea.campo-input {
+  resize: vertical;
+  min-height: 96px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

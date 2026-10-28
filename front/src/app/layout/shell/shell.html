@@ -1,0 +1,43 @@
+<div class="shell">
+  <aside class="lateral">
+    <a routerLink="/publicaciones" class="lateral-logo" aria-label="Ir a publicaciones">
+      <app-logo />
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a routerLink="/publicaciones" routerLinkActive="activo" class="nav-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z" />
+        </svg>
+        <span>Publicaciones</span>
+      </a>
+      <a routerLink="/mi-perfil" routerLinkActive="activo" class="nav-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+        </svg>
+        <span>Mi perfil</span>
+      </a>
+    </nav>
+
+    <!-- Tarjeta del usuario (por ahora con texto fijo) -->
+    <div class="jugador">
+      <div class="avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" /></svg>
+      </div>
+      <div class="jugador-datos">
+        <span class="jugador-nombre">Tu nombre</span>
+        <span class="jugador-usuario">&#64;tu_usuario</span>
+      </div>
+      <a routerLink="/login" class="salir" aria-label="Cerrar sesión" title="Cerrar sesión">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10" />
+        </svg>
+      </a>
+    </div>
+  </aside>
+
+  <main class="contenido">
+    <router-outlet />
+  </main>
+</div>

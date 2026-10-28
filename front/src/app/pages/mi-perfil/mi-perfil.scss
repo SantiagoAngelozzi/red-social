@@ -1,0 +1,12 @@
+.pendiente {
+  max-width: 680px;
+  margin: 3rem auto;
+  padding: 3rem 1.5rem;
+  border: 3px dashed var(--borde);
+  border-radius: 22px;
+  text-align: center;
+}
+
+.pendiente p {
+  color: var(--texto-suave);
+}

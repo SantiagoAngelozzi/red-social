@@ -6,6 +6,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './logo.scss',
 })
 export class Logo {
-  /** 'chico' para la barra lateral, 'grande' para el login */
   tamanio = input<'chico' | 'grande'>('chico');
 }

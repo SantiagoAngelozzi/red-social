@@ -1,30 +1,20 @@
-/* =========================================================
-   ROCKET SOCIAL - estilos globales
-   Paleta: equipo azul vs equipo naranja, como en una partida.
-   ========================================================= */
-
 :root {
-  /* Fondo de cancha de noche */
   --noche: #0a1430;
   --superficie: #121f45;
   --superficie-2: #1a2b5c;
   --borde: #26397a;
 
-  /* Equipos */
   --azul: #1e7bff;
   --azul-oscuro: #0b4fb8;
   --azul-claro: #6fb1ff;
   --naranja: #ff8a1f;
   --naranja-oscuro: #c45a00;
 
-  /* Boost */
   --boost: #ffd23f;
 
-  /* Texto */
   --texto: #eaf1ff;
   --texto-suave: #8fa3d1;
 
-  /* Estados */
   --error: #ff4d6d;
   --ok: #3ddc97;
 
@@ -52,7 +42,6 @@ body {
   line-height: 1.5;
   color: var(--texto);
   background-color: var(--noche);
-  /* Arco azul a la izquierda, arco naranja a la derecha */
   background-image:
     radial-gradient(60rem 40rem at -10% 10%, rgba(30, 123, 255, 0.18), transparent 60%),
     radial-gradient(50rem 40rem at 110% 90%, rgba(255, 138, 31, 0.14), transparent 60%);
@@ -99,11 +88,6 @@ textarea {
   white-space: nowrap;
 }
 
-/* =========================================================
-   BOTONES - inclinados como el HUD del juego, con sombra
-   "de piso" que se aplasta al apretar.
-   ========================================================= */
-
 .btn {
   --color: var(--azul);
   --sombra: var(--azul-oscuro);
@@ -128,7 +112,6 @@ textarea {
   transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
 }
 
-/* El contenido se endereza para que el texto no quede inclinado */
 .btn > * {
   transform: skewX(10deg);
 }
@@ -177,10 +160,6 @@ textarea {
   padding: 0.45rem 1.1rem;
   font-size: 0.95rem;
 }
-
-/* =========================================================
-   CAMPOS DE FORMULARIO
-   ========================================================= */
 
 .campo {
   display: flex;
@@ -264,4 +243,27 @@ textarea.campo-input {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 2px solid;
+  font-weight: 600;
+}
+
+.aviso-error {
+  background: rgba(255, 77, 109, 0.12);
+  border-color: var(--error);
+  color: #ffc2cf;
+}
+
+.aviso-ok {
+  background: rgba(61, 220, 151, 0.12);
+  border-color: var(--ok);
+  color: #b8f5d9;
 }

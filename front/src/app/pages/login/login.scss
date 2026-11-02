@@ -4,8 +4,6 @@
   min-height: 100vh;
 }
 
-/* ---------- La cancha ---------- */
-
 .cancha {
   position: relative;
   overflow: hidden;
@@ -16,7 +14,6 @@
   border-right: 4px solid var(--azul);
 }
 
-/* Reflectores del estadio */
 .cancha-luces {
   position: absolute;
   inset: 0;
@@ -26,7 +23,6 @@
     radial-gradient(30rem 14rem at 50% 45%, rgba(30, 123, 255, 0.25), transparent 70%);
 }
 
-/* Césped en perspectiva con las franjas del pasto */
 .cancha-piso {
   position: absolute;
   left: -20%;
@@ -75,7 +71,6 @@
   color: var(--texto-suave);
 }
 
-/* Pelota volando con estela de boost */
 .pelota-zona {
   position: absolute;
   right: 12%;
@@ -109,8 +104,6 @@
   }
 }
 
-/* ---------- Formulario ---------- */
-
 .panel {
   display: grid;
   place-items: center;
@@ -141,12 +134,6 @@
   flex-direction: column;
   gap: 1.4rem;
 }
-
-
-
-
-
-/* ---------- Medidor de boost ---------- */
 
 .boost {
   margin-top: 0.4rem;
@@ -185,7 +172,6 @@
   transition: width 0.3s ease;
 }
 
-
 .reglas {
   display: flex;
   flex-wrap: wrap;
@@ -211,10 +197,13 @@
   background: currentColor;
 }
 
+.reglas li.ok {
+  color: var(--ok);
+}
 
-
-
-/* ---------- Botón y pie ---------- */
+.reglas li.falta {
+  color: var(--error);
+}
 
 .btn-enviar {
   margin-top: 0.5rem;
@@ -222,8 +211,6 @@
   min-height: 56px;
   font-size: 1.2rem;
 }
-
-
 
 .registro {
   margin: 2rem 0 0;
@@ -240,8 +227,6 @@
 .registro a:hover {
   text-decoration: underline;
 }
-
-/* ---------- Celular ---------- */
 
 @media (max-width: 900px) {
   .login {

@@ -4,8 +4,6 @@
   min-height: 100vh;
 }
 
-/* ---------- Barra lateral ---------- */
-
 .lateral {
   position: sticky;
   top: 0;
@@ -57,7 +55,6 @@
   color: var(--texto);
 }
 
-/* Link activo: "placa" azul inclinada con borde de boost */
 .nav-link.activo {
   background: var(--azul);
   color: #fff;
@@ -144,14 +141,10 @@
   stroke-linejoin: round;
 }
 
-/* ---------- Contenido ---------- */
-
 .contenido {
   min-width: 0;
   padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
 }
-
-/* ---------- Celular: barra de navegación abajo ---------- */
 
 @media (max-width: 800px) {
   .shell {

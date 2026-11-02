@@ -1,4 +1,155 @@
-<section class="pendiente">
-  <h1>Registro</h1>
-  <p>Esta pantalla se arma en el próximo paso.</p>
-</section>
+<main class="pagina">
+  <div class="tarjeta">
+    <header class="cabecera">
+      <app-logo />
+      <div>
+        <h1 class="titulo">Creá tu cuenta</h1>
+        <p class="subtitulo">Completá tus datos para entrar a la comunidad.</p>
+      </div>
+    </header>
+    @if (errorServidor()) {
+      <div class="aviso aviso-error" role="alert">{{ errorServidor() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="registrar()" novalidate>
+      <div class="foto">
+        <div class="foto-preview">
+          @if (vistaPrevia()) {
+            <img [src]="vistaPrevia()" alt="Vista previa de tu foto de perfil" />
+          } @else {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+            </svg>
+          }
+        </div>
+        <div>
+          <label class="btn btn-fantasma btn-chico">
+            <span>{{ imagen() ? 'Cambiar foto' : 'Elegir foto de perfil' }}</span>
+            <input type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" (change)="elegirImagen($event)" />
+          </label>
+          <p class="foto-ayuda">Opcional. JPG, PNG o WEBP de hasta 2 MB.</p>
+          @if (errorImagen()) {
+            <p class="campo-error">{{ errorImagen() }}</p>
+          }
+        </div>
+      </div>
+      <div class="grilla">
+        <div class="campo" [class.invalido]="mostrarError('nombre')">
+          <label class="campo-label" for="nombre">Nombre</label>
+          <input id="nombre" class="campo-input" formControlName="nombre" autocomplete="given-name" />
+          @if (mostrarError('nombre')) {
+            <p class="campo-error">
+              @if (form.controls.nombre.hasError('required')) {
+                Escribí tu nombre.
+              } @else if (form.controls.nombre.hasError('maxlength')) {
+                Puede tener hasta 50 caracteres.
+              } @else {
+                Solo puede tener letras.
+              }
+            </p>
+          }
+        </div>
+        <div class="campo" [class.invalido]="mostrarError('apellido')">
+          <label class="campo-label" for="apellido">Apellido</label>
+          <input id="apellido" class="campo-input" formControlName="apellido" autocomplete="family-name" />
+          @if (mostrarError('apellido')) {
+            <p class="campo-error">
+              @if (form.controls.apellido.hasError('required')) {
+                Escribí tu apellido.
+              } @else if (form.controls.apellido.hasError('maxlength')) {
+                Puede tener hasta 50 caracteres.
+              } @else {
+                Solo puede tener letras.
+              }
+            </p>
+          }
+        </div>
+        <div class="campo" [class.invalido]="mostrarError('correo')">
+          <label class="campo-label" for="correo">Correo</label>
+          <input id="correo" class="campo-input" type="email" formControlName="correo" autocomplete="email" />
+          @if (mostrarError('correo')) {
+            <p class="campo-error">
+              @if (form.controls.correo.hasError('required')) {
+                Escribí tu correo.
+              } @else {
+                Ese correo no es válido. Tiene que tener el formato nombre&#64;dominio.com.
+              }
+            </p>
+          }
+        </div>
+        <div class="campo" [class.invalido]="mostrarError('nombreUsuario')">
+          <label class="campo-label" for="nombreUsuario">Nombre de usuario</label>
+          <input id="nombreUsuario" class="campo-input" formControlName="nombreUsuario" autocomplete="username" />
+          @if (mostrarError('nombreUsuario')) {
+            <p class="campo-error">
+              @if (form.controls.nombreUsuario.hasError('required')) {
+                Elegí un nombre de usuario.
+              } @else {
+                Entre 3 y 20 caracteres: letras, números, punto o guion bajo.
+              }
+            </p>
+          }
+        </div>
+        <div class="campo" [class.invalido]="mostrarError('password')">
+          <label class="campo-label" for="password">Contraseña</label>
+          <input id="password" class="campo-input" type="password" formControlName="password" autocomplete="new-password" />
+          @if (mostrarError('password')) {
+            <p class="campo-error">
+              @if (form.controls.password.hasError('required')) {
+                Escribí una contraseña.
+              } @else if (form.controls.password.hasError('maxlength')) {
+                Puede tener hasta 64 caracteres.
+              } @else {
+                Le falta: {{ faltantesPassword() }}.
+              }
+            </p>
+          }
+        </div>
+        <div class="campo" [class.invalido]="mostrarError('repetirPassword') || passwordsDistintas()">
+          <label class="campo-label" for="repetirPassword">Repetir contraseña</label>
+          <input id="repetirPassword" class="campo-input" type="password" formControlName="repetirPassword" autocomplete="new-password" />
+          @if (mostrarError('repetirPassword')) {
+            <p class="campo-error">Repetí tu contraseña.</p>
+          } @else if (passwordsDistintas()) {
+            <p class="campo-error">Las contraseñas no coinciden.</p>
+          }
+        </div>
+        <div class="campo" [class.invalido]="mostrarError('fechaNacimiento')">
+          <label class="campo-label" for="fechaNacimiento">Fecha de nacimiento</label>
+          <input id="fechaNacimiento" class="campo-input" type="date" formControlName="fechaNacimiento" [max]="hoy" />
+          @if (mostrarError('fechaNacimiento')) {
+            <p class="campo-error">
+              @if (form.controls.fechaNacimiento.hasError('required')) {
+                Elegí tu fecha de nacimiento.
+              } @else if (form.controls.fechaNacimiento.hasError('fechaFutura')) {
+                La fecha no puede ser futura.
+              } @else {
+                Tenés que tener al menos 13 años.
+              }
+            </p>
+          }
+        </div>
+        <div class="campo completo" [class.invalido]="mostrarError('descripcion')">
+          <label class="campo-label" for="descripcion">Descripción breve (opcional)</label>
+          <textarea
+            id="descripcion"
+            class="campo-input"
+            formControlName="descripcion"
+            rows="3"
+            maxlength="200"
+            placeholder="Contá qué auto usás, tu rango o tu modo favorito"
+          ></textarea>
+          <span class="contador">{{ form.controls.descripcion.value.length }}/200</span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-naranja btn-enviar" [disabled]="cargando()">
+        <span>{{ cargando() ? 'Creando cuenta...' : 'Crear cuenta' }}</span>
+      </button>
+    </form>
+    <p class="pie">
+      ¿Ya tenés cuenta?
+      <a routerLink="/login">Iniciá sesión</a>
+    </p>
+  </div>
+</main>

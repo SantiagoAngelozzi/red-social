@@ -17,8 +17,6 @@
   color: var(--texto-suave);
 }
 
-/* ---------- Crear publicación ---------- */
-
 .crear {
   padding: 1.25rem;
   border-radius: 22px;
@@ -94,8 +92,6 @@
   stroke-linejoin: round;
 }
 
-/* ---------- Pestañas de orden ---------- */
-
 .orden {
   display: flex;
   gap: 0.75rem;
@@ -123,8 +119,6 @@
 .orden-naranja:hover {
   border-color: var(--naranja);
 }
-
-/* ---------- Sin publicaciones ---------- */
 
 .vacio {
   padding: 3rem 1.5rem;

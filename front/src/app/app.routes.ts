@@ -8,11 +8,9 @@ import { Registro } from './pages/registro/registro';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // Pantallas sin barra lateral
   { path: 'login', component: Login, title: 'Iniciar sesión | Rocket Social' },
   { path: 'registro', component: Registro, title: 'Registro | Rocket Social' },
 
-  // Pantallas con barra lateral (se muestran dentro del Shell)
   {
     path: '',
     component: Shell,

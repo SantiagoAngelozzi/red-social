@@ -24,6 +24,8 @@ type CampoRegistro =
   | 'fechaNacimiento'
   | 'descripcion';
 
+type ReglaPassword = 'largo' | 'mayuscula' | 'numero';
+
 const TIPOS_DE_IMAGEN = ['image/jpeg', 'image/png', 'image/webp'];
 const PESO_MAXIMO_MB = 2;
 
@@ -72,13 +74,15 @@ export class Registro {
     return this.form.hasError('passwordsDistintas') && (control.touched || this.enviado());
   }
 
-  faltantesPassword(): string {
+  reglaCumplida(regla: ReglaPassword): boolean {
     const control = this.form.controls.password;
-    const faltan: string[] = [];
-    if (control.hasError('largo')) faltan.push('8 caracteres');
-    if (control.hasError('mayuscula')) faltan.push('una mayúscula');
-    if (control.hasError('numero')) faltan.push('un número');
-    return faltan.join(', ');
+    return control.value !== '' && !control.hasError(regla);
+  }
+
+  boost(): number {
+    const reglas: ReglaPassword[] = ['largo', 'mayuscula', 'numero'];
+    const cumplidas = reglas.filter((regla) => this.reglaCumplida(regla)).length;
+    return Math.round((cumplidas / 3) * 100);
   }
 
   elegirImagen(evento: Event): void {

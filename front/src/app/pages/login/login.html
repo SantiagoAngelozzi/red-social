@@ -87,22 +87,14 @@
               autocomplete="current-password"
             />
           </div>
-          <div class="boost">
-            <div class="boost-cabecera">
-              <span>Boost de la contraseña</span>
-              <span class="boost-numero">{{ boost() }}</span>
-            </div>
-            <div class="boost-barra">
-              <div class="boost-relleno" [style.width.%]="boost()"></div>
-            </div>
-            <ul class="reglas">
-              <li [class.ok]="reglaCumplida('largo')" [class.falta]="enviado() && !reglaCumplida('largo')">8 caracteres o más</li>
-              <li [class.ok]="reglaCumplida('mayuscula')" [class.falta]="enviado() && !reglaCumplida('mayuscula')">Una mayúscula</li>
-              <li [class.ok]="reglaCumplida('numero')" [class.falta]="enviado() && !reglaCumplida('numero')">Un número</li>
-            </ul>
-          </div>
-          @if (mostrarError('password') && form.controls.password.hasError('required')) {
-            <p class="campo-error">Escribí tu contraseña.</p>
+          @if (mostrarError('password')) {
+            <p class="campo-error">
+              @if (form.controls.password.hasError('required')) {
+                Escribí tu contraseña.
+              } @else {
+                La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.
+              }
+            </p>
           }
         </div>
         <button type="submit" class="btn btn-naranja btn-enviar" [disabled]="cargando()">

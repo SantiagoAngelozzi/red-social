@@ -101,7 +101,7 @@
               } @else if (form.controls.password.hasError('maxlength')) {
                 Puede tener hasta 64 caracteres.
               } @else {
-                Le falta: {{ faltantesPassword() }}.
+                Le faltan requisitos: mirá el medidor de abajo.
               }
             </p>
           }
@@ -114,6 +114,20 @@
           } @else if (passwordsDistintas()) {
             <p class="campo-error">Las contraseñas no coinciden.</p>
           }
+        </div>
+        <div class="boost completo">
+          <div class="boost-cabecera">
+            <span>Boost de la contraseña</span>
+            <span class="boost-numero">{{ boost() }}</span>
+          </div>
+          <div class="boost-barra">
+            <div class="boost-relleno" [style.width.%]="boost()"></div>
+          </div>
+          <ul class="reglas">
+            <li [class.ok]="reglaCumplida('largo')" [class.falta]="enviado() && !reglaCumplida('largo')">8 caracteres o más</li>
+            <li [class.ok]="reglaCumplida('mayuscula')" [class.falta]="enviado() && !reglaCumplida('mayuscula')">Una mayúscula</li>
+            <li [class.ok]="reglaCumplida('numero')" [class.falta]="enviado() && !reglaCumplida('numero')">Un número</li>
+          </ul>
         </div>
         <div class="campo" [class.invalido]="mostrarError('fechaNacimiento')">
           <label class="campo-label" for="fechaNacimiento">Fecha de nacimiento</label>

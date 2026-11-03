@@ -88,6 +88,76 @@
   color: var(--texto-suave);
 }
 
+.boost {
+  margin-top: -0.4rem;
+  padding: 0.8rem 1rem;
+  border-radius: 14px;
+  background: var(--superficie);
+  border: 2px solid var(--borde);
+}
+
+.boost-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.boost-numero {
+  font-family: var(--fuente-display);
+  font-size: 1.3rem;
+  color: var(--boost);
+}
+
+.boost-barra {
+  height: 12px;
+  margin: 0.4rem 0 0.7rem;
+  border-radius: 999px;
+  background: var(--noche);
+  overflow: hidden;
+  transform: skewX(-20deg);
+}
+
+.boost-relleno {
+  height: 100%;
+  background: linear-gradient(90deg, var(--naranja), var(--boost));
+  transition: width 0.3s ease;
+}
+
+.reglas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.reglas li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.reglas li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.reglas li.ok {
+  color: var(--ok);
+}
+
+.reglas li.falta {
+  color: var(--error);
+}
+
 .btn-enviar {
   width: 100%;
   min-height: 56px;

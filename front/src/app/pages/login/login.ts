@@ -7,8 +7,6 @@ import { AuthService } from '../../services/auth.service';
 import { mensajeDeError } from '../../services/mensaje-error';
 import { correoOUsuario, passwordSegura } from '../../validators/validadores';
 
-type ReglaPassword = 'largo' | 'mayuscula' | 'numero';
-
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink, Logo],
@@ -35,17 +33,6 @@ export class Login {
   mostrarError(campo: 'identificador' | 'password'): boolean {
     const control = this.form.controls[campo];
     return control.invalid && (control.touched || this.enviado());
-  }
-
-  reglaCumplida(regla: ReglaPassword): boolean {
-    const control = this.form.controls.password;
-    return control.value !== '' && !control.hasError(regla);
-  }
-
-  boost(): number {
-    const reglas: ReglaPassword[] = ['largo', 'mayuscula', 'numero'];
-    const cumplidas = reglas.filter((regla) => this.reglaCumplida(regla)).length;
-    return Math.round((cumplidas / 3) * 100);
   }
 
   iniciarSesion(): void {

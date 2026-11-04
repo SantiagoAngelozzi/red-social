@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Logo } from '../../shared/logo/logo';
+import { SesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-shell',
@@ -8,4 +9,12 @@ import { Logo } from '../../shared/logo/logo';
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
-export class Shell {}
+export class Shell {
+  private readonly router = inject(Router);
+  readonly sesion = inject(SesionService);
+
+  cerrarSesion(): void {
+    this.sesion.cerrar();
+    this.router.navigate(['/login']);
+  }
+}

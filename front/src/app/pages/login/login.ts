@@ -6,6 +6,7 @@ import { Logo } from '../../shared/logo/logo';
 import { AuthService } from '../../services/auth.service';
 import { mensajeDeError } from '../../services/mensaje-error';
 import { correoOUsuario, passwordSegura } from '../../validators/validadores';
+import { SesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class Login {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly sesion = inject(SesionService);
 
   form = this.fb.nonNullable.group({
     identificador: ['', [Validators.required, correoOUsuario]],
@@ -44,8 +46,9 @@ export class Login {
     const { identificador, password } = this.form.getRawValue();
 
     this.auth.login(identificador.trim(), password).subscribe({
-      next: () => {
+      next: (usuario) => {
         this.cargando.set(false);
+        this.sesion.iniciar(usuario);
         this.router.navigate(['/publicaciones']);
       },
       error: (error: HttpErrorResponse) => {

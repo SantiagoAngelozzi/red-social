@@ -15,6 +15,10 @@ export class UsuariosService {
     return this.usuarioModel.findOne({ nombreUsuario });
   }
 
+  buscarPorId(id: string) {
+    return this.usuarioModel.findById(id);
+  }
+
   crear(datos: Partial<Usuario>) {
     return this.usuarioModel.create(datos);
   }

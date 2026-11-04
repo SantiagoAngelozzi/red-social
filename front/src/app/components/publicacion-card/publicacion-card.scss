@@ -134,3 +134,39 @@
 .accion-megusta.activo svg {
   fill: currentColor;
 }
+
+.accion-megusta:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.card-autor {
+  flex: 1;
+}
+
+.eliminar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.eliminar:hover {
+  background: rgba(255, 77, 109, 0.15);
+  color: var(--error);
+}
+
+.eliminar svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

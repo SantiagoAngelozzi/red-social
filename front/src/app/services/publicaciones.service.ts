@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { OrdenPublicaciones, RespuestaPublicaciones } from '../models/publicacion';
+import { OrdenPublicaciones, Publicacion, RespuestaPublicaciones } from '../models/publicacion';
 
 export interface FiltrosPublicaciones {
   orden?: OrdenPublicaciones;
@@ -24,5 +24,21 @@ export class PublicacionesService {
     if (filtros.limit !== undefined) params = params.set('limit', filtros.limit);
 
     return this.http.get<RespuestaPublicaciones>(this.api, { params });
+  }
+
+  crear(datos: FormData): Observable<Publicacion> {
+    return this.http.post<Publicacion>(this.api, datos);
+  }
+
+  darMeGusta(id: string, usuarioId: string): Observable<Publicacion> {
+    return this.http.post<Publicacion>(`${this.api}/${id}/me-gusta`, { usuarioId });
+  }
+
+  quitarMeGusta(id: string, usuarioId: string): Observable<Publicacion> {
+    return this.http.delete<Publicacion>(`${this.api}/${id}/me-gusta`, { body: { usuarioId } });
+  }
+
+  eliminar(id: string, usuarioId: string): Observable<{ mensaje: string }> {
+    return this.http.delete<{ mensaje: string }>(`${this.api}/${id}`, { body: { usuarioId } });
   }
 }

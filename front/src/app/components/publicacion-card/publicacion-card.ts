@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Publicacion } from '../../models/publicacion';
 
@@ -11,6 +11,9 @@ import { Publicacion } from '../../models/publicacion';
 export class PublicacionCard {
   publicacion = input.required<Publicacion>();
   usuarioId = input<string | null>(null);
+  ocupado = input(false);
+  tocarMeGusta = output<void>();
+  tocarEliminar = output<void>();
 
   meGustaDado = computed(() => {
     const id = this.usuarioId();

@@ -1,0 +1,43 @@
+@if (abierto()) {
+  <div class="modal-fondo" (click)="cerrar.emit()">
+    <div
+      class="modal"
+      [class]="'modal-' + tipo()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-titulo"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="modal-icono" aria-hidden="true">
+        @switch (tipo()) {
+          @case ('exito') {
+            <svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7" /></svg>
+          }
+          @case ('error') {
+            <svg viewBox="0 0 24 24"><path d="M7 7 17 17 M17 7 7 17" /></svg>
+          }
+          @case ('peligro') {
+            <svg viewBox="0 0 24 24"><path d="M12 6v8 M12 18v.5" /></svg>
+          }
+          @default {
+            <svg viewBox="0 0 24 24"><path d="M12 10v8 M12 6v.5" /></svg>
+          }
+        }
+      </div>
+
+      <h2 id="modal-titulo" class="modal-titulo">{{ titulo() }}</h2>
+
+      <div class="modal-cuerpo">
+        <ng-content />
+      </div>
+
+      <div class="modal-acciones">
+        <ng-content select="[acciones]" />
+      </div>
+
+      <button type="button" class="modal-cerrar" (click)="cerrar.emit()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7 17 17 M17 7 7 17" /></svg>
+      </button>
+    </div>
+  </div>
+}

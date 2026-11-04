@@ -1,27 +1,23 @@
 import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { PasswordHasher } from '@nestjs/authentication';
-import { randomUUID } from 'node:crypto';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { extname, join } from 'node:path';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import type { UsuarioDocument } from '../usuarios/schemas/usuario.schema.js';
+import { FileService } from '../file/file.service.js';
 import { RegistroDto } from './dto/registro.dto.js';
 import { LoginDto } from './dto/login.dto.js';
-import type { ArchivoSubido } from './archivo-subido.js';
 
 const EDAD_MINIMA = 13;
-const CARPETA_PERFILES = join(process.cwd(), 'uploads', 'perfiles');
+const CARPETA_PERFILES = 'rocket-social/perfiles';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usuariosService: UsuariosService,
-    private readonly config: ConfigService,
+    private readonly fileService: FileService,
     private readonly passwordHasher: PasswordHasher,
   ) {}
 
-  async registrar(datos: RegistroDto, imagen?: ArchivoSubido) {
+  async registrar(datos: RegistroDto, imagen?: Express.Multer.File) {
     const nacimiento = new Date(datos.fechaNacimiento);
     if (nacimiento > new Date()) {
       throw new BadRequestException('La fecha de nacimiento no puede ser futura');
@@ -39,7 +35,9 @@ export class AuthService {
 
     const passwordHasheada = await this.passwordHasher.hash(datos.password);
 
-    const imagenPerfil = imagen ? await this.guardarImagen(imagen) : null;
+    const imagenPerfil = imagen
+      ? await this.fileService.cloudinaryUploader(imagen, CARPETA_PERFILES)
+      : null;
 
     const usuario = await this.usuariosService.crear({
       ...datos,
@@ -71,15 +69,6 @@ export class AuthService {
   private sinPassword(usuario: UsuarioDocument) {
     const { password: _password, ...datos } = usuario.toObject();
     return datos;
-  }
-
-  private async guardarImagen(imagen: ArchivoSubido): Promise<string> {
-    await mkdir(CARPETA_PERFILES, { recursive: true });
-    const nombreArchivo = `${randomUUID()}${extname(imagen.originalname).toLowerCase()}`;
-    await writeFile(join(CARPETA_PERFILES, nombreArchivo), imagen.buffer);
-
-    const baseUrl = this.config.get<string>('BASE_URL') ?? 'http://localhost:3000';
-    return `${baseUrl}/uploads/perfiles/${nombreArchivo}`;
   }
 
   private calcularEdad(nacimiento: Date): number {

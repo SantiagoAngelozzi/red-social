@@ -1,9 +1,10 @@
 import { BadRequestException, Body, Controller, HttpCode, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { AuthService } from './auth.service.js';
 import { RegistroDto } from './dto/registro.dto.js';
 import { LoginDto } from './dto/login.dto.js';
-import type { ArchivoSubido } from './archivo-subido.js';
+
 
 const TIPOS_DE_IMAGEN = ['image/jpeg', 'image/png', 'image/webp'];
 const PESO_MAXIMO = 2 * 1024 * 1024;
@@ -15,6 +16,7 @@ export class AuthController {
   @Post('registro')
   @UseInterceptors(
     FileInterceptor('imagenPerfil', {
+      storage: memoryStorage(),
       limits: { fileSize: PESO_MAXIMO },
       fileFilter: (_req, archivo, callback) => {
         if (!TIPOS_DE_IMAGEN.includes(archivo.mimetype)) {
@@ -24,7 +26,7 @@ export class AuthController {
       },
     }),
   )
-  registrar(@Body() datos: RegistroDto, @UploadedFile() imagen?: ArchivoSubido) {
+  registrar(@Body() datos: RegistroDto, @UploadedFile() imagen?: Express.Multer.File) {
     return this.authService.registrar(datos, imagen);
   }
 

@@ -1,0 +1,136 @@
+.card {
+  padding: 1.25rem 1.25rem 0.75rem;
+  border-radius: 22px;
+  background: var(--superficie);
+  border: 2px solid var(--borde);
+}
+
+.card.mia {
+  border-color: rgba(255, 138, 31, 0.5);
+}
+
+.card-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+  border: 3px solid var(--azul-claro);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.card-autor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.card-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.etiqueta-vos {
+  padding: 0.05rem 0.55rem;
+  border-radius: 6px;
+  background: var(--naranja);
+  color: #fff;
+  font-family: var(--fuente-display);
+  font-size: 0.7rem;
+  transform: skewX(-10deg);
+}
+
+.card-fecha {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.card-titulo {
+  margin: 1rem 0 0.35rem;
+  font-size: 1.3rem;
+}
+
+.card-mensaje {
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.card-imagen {
+  width: 100%;
+  max-height: 320px;
+  margin-top: 1rem;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid var(--borde);
+}
+
+.card-pie {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  padding-top: 0.6rem;
+  border-top: 2px solid var(--borde);
+}
+
+.accion-megusta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto-suave);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.accion-megusta svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.accion-megusta:hover {
+  background: rgba(255, 138, 31, 0.12);
+  color: var(--naranja);
+}
+
+.accion-megusta.activo {
+  background: var(--naranja);
+  color: #fff;
+  box-shadow: 0 3px 0 var(--naranja-oscuro);
+}
+
+.accion-megusta.activo svg {
+  fill: currentColor;
+}

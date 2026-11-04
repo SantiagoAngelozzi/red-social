@@ -1,0 +1,42 @@
+<article class="card" [class.mia]="esMia()">
+  <header class="card-cabecera">
+    <div class="avatar">
+      @if (publicacion().autor.imagenPerfil) {
+        <img [src]="publicacion().autor.imagenPerfil" [alt]="'Foto de ' + publicacion().autor.nombreUsuario" />
+      } @else {
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+        </svg>
+      }
+    </div>
+    <div class="card-autor">
+      <span class="card-usuario">
+        {{ publicacion().autor.nombreUsuario }}
+        @if (esMia()) {
+          <span class="etiqueta-vos">Vos</span>
+        }
+      </span>
+      <time class="card-fecha" [attr.datetime]="publicacion().createdAt">
+        {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}
+      </time>
+    </div>
+  </header>
+
+  <h3 class="card-titulo">{{ publicacion().titulo }}</h3>
+  <p class="card-mensaje">{{ publicacion().mensaje }}</p>
+
+  @if (publicacion().imagen) {
+    <img class="card-imagen" [src]="publicacion().imagen" [alt]="'Imagen de ' + publicacion().titulo" loading="lazy" />
+  }
+
+  <footer class="card-pie">
+    <button type="button" class="accion-megusta" [class.activo]="meGustaDado()" [attr.aria-pressed]="meGustaDado()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.6-9 9-9 9Z" />
+      </svg>
+      <span>{{ publicacion().cantidadMeGusta }}</span>
+      <span class="sr-only">me gusta</span>
+    </button>
+  </footer>
+</article>

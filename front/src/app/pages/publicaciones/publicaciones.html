@@ -3,6 +3,7 @@
     <h1 class="feed-titulo">Publicaciones</h1>
     <p class="feed-bajada">Lo último de la comunidad.</p>
   </header>
+
   <div class="crear">
     <div class="crear-fila">
       <div class="avatar" aria-hidden="true">
@@ -27,12 +28,48 @@
       </button>
     </div>
   </div>
-  <div class="orden">
-    <button type="button" class="orden-tab activo">Más recientes</button>
-    <button type="button" class="orden-tab orden-naranja">Más me gusta</button>
+
+  <div class="orden" role="tablist" aria-label="Ordenar publicaciones">
+    <button
+      type="button"
+      role="tab"
+      class="orden-tab"
+      [class.activo]="orden() === 'fecha'"
+      [attr.aria-selected]="orden() === 'fecha'"
+      (click)="cambiarOrden('fecha')"
+    >
+      Más recientes
+    </button>
+    <button
+      type="button"
+      role="tab"
+      class="orden-tab orden-naranja"
+      [class.activo]="orden() === 'meGusta'"
+      [attr.aria-selected]="orden() === 'meGusta'"
+      (click)="cambiarOrden('meGusta')"
+    >
+      Más me gusta
+    </button>
   </div>
-  <div class="vacio">
-    <h2>La cancha está vacía</h2>
-    <p>Todavía no hay publicaciones.</p>
-  </div>
+
+  @if (error()) {
+    <div class="aviso aviso-error" role="alert">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Cargando publicaciones...</p>
+  } @else {
+    <div class="lista">
+      @for (publicacion of publicaciones(); track publicacion._id) {
+        <app-publicacion-card [publicacion]="publicacion" [usuarioId]="sesion.usuario()?._id ?? null" />
+      } @empty {
+        @if (!error()) {
+          <div class="vacio">
+            <h2>La cancha está vacía</h2>
+            <p>Todavía no hay publicaciones.</p>
+          </div>
+        }
+      }
+    </div>
+  }
 </div>

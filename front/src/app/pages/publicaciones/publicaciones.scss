@@ -137,3 +137,21 @@
     display: none;
   }
 }
+
+.orden-naranja.activo {
+  background: var(--naranja);
+  border-color: var(--naranja);
+  box-shadow: 0 4px 0 var(--naranja-oscuro);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.estado {
+  margin: 2rem 0;
+  text-align: center;
+  color: var(--texto-suave);
+}

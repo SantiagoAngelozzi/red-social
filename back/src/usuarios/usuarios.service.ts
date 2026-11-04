@@ -19,6 +19,10 @@ export class UsuariosService {
     return this.usuarioModel.findById(id);
   }
 
+  listar() {
+    return this.usuarioModel.find().select('-password').sort({ createdAt: -1 });
+  }
+
   crear(datos: Partial<Usuario>) {
     return this.usuarioModel.create(datos);
   }

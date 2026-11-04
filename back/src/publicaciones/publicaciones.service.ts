@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import type { SortOrder } from 'mongoose';
@@ -99,11 +99,32 @@ export class PublicacionesService {
     return publicacion;
   }
 
+  async eliminar(id: string, usuarioId: string) {
+    const usuario = await this.validarUsuario(usuarioId);
+
+    const publicacion = await this.publicacionModel.findOne({ _id: id, activo: true });
+    if (!publicacion) {
+      throw new NotFoundException('La publicación no existe');
+    }
+
+    const esAutor = publicacion.autor.equals(usuario._id);
+    const esAdministrador = usuario.perfil === 'administrador';
+    if (!esAutor && !esAdministrador) {
+      throw new ForbiddenException('Solo podés eliminar tus propias publicaciones');
+    }
+
+    publicacion.activo = false;
+    await publicacion.save();
+
+    return { mensaje: 'Publicación eliminada' };
+  }
+
   private async validarUsuario(usuarioId: string) {
     const usuario = await this.usuariosService.buscarPorId(usuarioId);
     if (!usuario || !usuario.activo) {
       throw new NotFoundException('El usuario no existe o está deshabilitado');
     }
+    return usuario;
   }
 
   private async validarPublicacion(id: string) {

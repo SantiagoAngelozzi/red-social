@@ -17,12 +17,12 @@ export class PublicacionesController {
     return this.publicacionesService.crear(datos, imagen);
   }
 
-    @Get()
+  @Get()
   listar(@Query() filtros: ListarPublicacionesDto) {
     return this.publicacionesService.listar(filtros);
   }
 
-    @Post(':id/me-gusta')
+  @Post(':id/me-gusta')
   darMeGusta(@Param() params: IdParamDto, @Body() datos: MeGustaDto) {
     return this.publicacionesService.darMeGusta(params.id, datos.usuarioId);
   }
@@ -30,5 +30,10 @@ export class PublicacionesController {
   @Delete(':id/me-gusta')
   quitarMeGusta(@Param() params: IdParamDto, @Body() datos: MeGustaDto) {
     return this.publicacionesService.quitarMeGusta(params.id, datos.usuarioId);
+  }
+
+  @Delete(':id')
+  eliminar(@Param() params: IdParamDto, @Body() datos: MeGustaDto) {
+    return this.publicacionesService.eliminar(params.id, datos.usuarioId);
   }
 }

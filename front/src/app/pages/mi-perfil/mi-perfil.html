@@ -1,4 +1,91 @@
-<section class="pendiente">
-  <h1>Mi perfil</h1>
-  <p>Esta pantalla se arma en el próximo paso.</p>
-</section>
+<div class="perfil">
+  @if (sesion.usuario(); as usuario) {
+    <section class="tarjeta-perfil">
+      <div class="foto">
+        @if (usuario.imagenPerfil) {
+          <img [src]="usuario.imagenPerfil" [alt]="'Foto de ' + usuario.nombreUsuario" />
+        } @else {
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+          </svg>
+        }
+      </div>
+
+      <div class="identidad">
+        <h1 class="nombre">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+        <p class="usuario">&#64;{{ usuario.nombreUsuario }}</p>
+        <span class="etiqueta-perfil" [class.admin]="usuario.perfil === 'administrador'">
+          {{ usuario.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}
+        </span>
+      </div>
+
+      <p class="descripcion">
+        {{ usuario.descripcion || 'Todavía no escribiste una descripción.' }}
+      </p>
+
+      <dl class="datos">
+        <div class="dato">
+          <dt>Correo</dt>
+          <dd>{{ usuario.correo }}</dd>
+        </div>
+        <div class="dato">
+          <dt>Fecha de nacimiento</dt>
+          <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
+        </div>
+        @if (usuario.createdAt) {
+          <div class="dato">
+            <dt>En Rocket Social desde</dt>
+            <dd>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</dd>
+          </div>
+        }
+        <div class="dato">
+          <dt>Publicaciones</dt>
+          <dd>{{ totalPublicaciones() }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="seccion">
+      <h2 class="seccion-titulo">Mis últimas publicaciones</h2>
+
+      @if (error()) {
+        <div class="aviso aviso-error" role="alert">{{ error() }}</div>
+      }
+
+      @if (cargando()) {
+        <p class="estado">Cargando publicaciones...</p>
+      } @else {
+        <div class="lista">
+          @for (publicacion of ultimas(); track publicacion._id) {
+            <div class="publicacion-con-comentarios">
+              <app-publicacion-card
+                [publicacion]="publicacion"
+                [usuarioId]="usuario._id"
+                [mostrarAcciones]="false"
+              />
+              <div class="comentarios">
+                <h3 class="comentarios-titulo">Comentarios</h3>
+                <p class="comentarios-vacio">Todavía no hay comentarios.</p>
+              </div>
+            </div>
+          } @empty {
+            @if (!error()) {
+              <div class="vacio">
+                <h3>Todavía no publicaste nada</h3>
+                <p>Contale a la comunidad tu mejor jugada.</p>
+                <a routerLink="/publicaciones" class="btn btn-chico"><span>Ir a publicaciones</span></a>
+              </div>
+            }
+          }
+        </div>
+      }
+    </section>
+  } @else {
+    <div class="vacio">
+      <h2>No iniciaste sesión</h2>
+      <p>Iniciá sesión para ver tu perfil.</p>
+      <a routerLink="/login" class="btn btn-chico"><span>Iniciar sesión</span></a>
+    </div>
+  }
+</div>

@@ -21,7 +21,7 @@
         {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}
       </time>
     </div>
-    @if (esMia()) {
+      @if (esMia() && mostrarAcciones()) {
       <button
         type="button"
         class="eliminar"
@@ -49,7 +49,7 @@
       class="accion-megusta"
       [class.activo]="meGustaDado()"
       [attr.aria-pressed]="meGustaDado()"
-      [disabled]="ocupado() || usuarioId() === null"
+      [disabled]="ocupado() || usuarioId() === null || !mostrarAcciones()"
       (click)="tocarMeGusta.emit()"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true">

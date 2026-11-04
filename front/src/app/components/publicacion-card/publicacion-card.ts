@@ -12,6 +12,7 @@ export class PublicacionCard {
   publicacion = input.required<Publicacion>();
   usuarioId = input<string | null>(null);
   ocupado = input(false);
+  mostrarAcciones = input(true);
   tocarMeGusta = output<void>();
   tocarEliminar = output<void>();
 

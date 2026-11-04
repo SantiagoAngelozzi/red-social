@@ -9,4 +9,5 @@ export interface Usuario {
   imagenPerfil: string | null;
   perfil: 'usuario' | 'administrador';
   activo: boolean;
+  createdAt?: string;
 }

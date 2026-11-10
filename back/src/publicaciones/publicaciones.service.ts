@@ -61,6 +61,16 @@ export class PublicacionesService {
     return { publicaciones, total, offset, limit };
   }
 
+    async buscarActiva(id: string) {
+    const publicacion = await this.publicacionModel
+      .findOne({ _id: id, activo: true })
+      .populate('autor', DATOS_AUTOR);
+    if (!publicacion) {
+      throw new NotFoundException('La publicación no existe');
+    }
+    return publicacion;
+  }
+
     async darMeGusta(id: string, usuarioId: string) {
     await this.validarUsuario(usuarioId);
     const usuario = new Types.ObjectId(usuarioId);

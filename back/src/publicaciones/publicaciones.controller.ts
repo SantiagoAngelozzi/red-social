@@ -22,6 +22,11 @@ export class PublicacionesController {
     return this.publicacionesService.listar(filtros);
   }
 
+  @Get(':id')
+  buscarUna(@Param() params: IdParamDto) {
+    return this.publicacionesService.buscarActiva(params.id);
+  }
+
   @Post(':id/me-gusta')
   darMeGusta(@Param() params: IdParamDto, @Body() datos: MeGustaDto) {
     return this.publicacionesService.darMeGusta(params.id, datos.usuarioId);

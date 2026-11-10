@@ -14,5 +14,6 @@ import { FileModule } from '../file/file.module.js';
   ],
   controllers: [PublicacionesController],
   providers: [PublicacionesService],
+  exports: [PublicacionesService],
 })
 export class PublicacionesModule {}

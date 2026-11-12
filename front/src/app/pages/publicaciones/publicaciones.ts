@@ -33,6 +33,7 @@ export class Publicaciones implements OnInit, OnDestroy {
   eliminando = signal(false);
 
   totalPaginas = computed(() => Math.max(1, Math.ceil(this.total() / POR_PAGINA)));
+  esAdmin = computed(() => this.sesion.usuario()?.perfil === 'administrador');
 
   private temporizadorAviso?: ReturnType<typeof setTimeout>;
 

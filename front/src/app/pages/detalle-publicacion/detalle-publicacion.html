@@ -19,6 +19,7 @@
         [usuarioId]="sesion.usuario()?._id ?? null"
         [ocupado]="procesandoMeGusta()"
         [grande]="true"
+        [esAdmin]="esAdmin()"
         (tocarMeGusta)="alternarMeGusta()"
         (tocarEliminar)="confirmandoEliminar.set(true)"
       />
@@ -92,6 +93,11 @@
   (cerrar)="cancelarEliminar()"
 >
   <p>Se va a eliminar "{{ publicacion()?.titulo }}". No vas a poder deshacerlo.</p>
+  @if (publicacion(); as actual) {
+    @if (actual.autor._id !== sesion.usuario()?._id) {
+      <p>Esta publicación es de &#64;{{ actual.autor.nombreUsuario }}. La vas a eliminar como administrador.</p>
+    }
+  }
   <div acciones>
     <button type="button" class="btn btn-fantasma" [disabled]="eliminando()" (click)="cancelarEliminar()">
       <span>Cancelar</span>

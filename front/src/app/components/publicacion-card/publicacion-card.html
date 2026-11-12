@@ -21,7 +21,7 @@
         {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}
       </time>
     </div>
-      @if (esMia() && mostrarAcciones()) {
+      @if (puedeEliminar() && mostrarAcciones()) {
       <button
         type="button"
         class="eliminar"

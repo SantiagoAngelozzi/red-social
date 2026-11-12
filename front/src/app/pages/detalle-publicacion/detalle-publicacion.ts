@@ -42,6 +42,7 @@ export class DetallePublicacion implements OnInit {
   cargandoComentarios = signal(false);
   errorComentarios = signal<string | null>(null);
   hayMas = computed(() => this.comentarios().length < this.totalComentarios());
+  esAdmin = computed(() => this.sesion.usuario()?.perfil === 'administrador');
 
   form = this.fb.nonNullable.group({
     mensaje: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(MAX_COMENTARIO)]],

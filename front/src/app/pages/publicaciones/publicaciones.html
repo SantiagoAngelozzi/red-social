@@ -46,6 +46,7 @@
           [publicacion]="publicacion"
           [usuarioId]="sesion.usuario()?._id ?? null"
           [ocupado]="procesando() === publicacion._id"
+          [esAdmin]="esAdmin()"
           (tocarMeGusta)="alternarMeGusta(publicacion)"
           (tocarEliminar)="pedirEliminar(publicacion)"
         />
@@ -80,6 +81,11 @@
 
 <app-modal [abierto]="aEliminar() !== null" titulo="¿Eliminar publicación?" [tipo]="'peligro'" (cerrar)="cancelarEliminar()">
   <p>Se va a eliminar "{{ aEliminar()?.titulo }}". No vas a poder deshacerlo.</p>
+  @if (aEliminar(); as publicacion) {
+    @if (publicacion.autor._id !== sesion.usuario()?._id) {
+      <p>Esta publicación es de &#64;{{ publicacion.autor.nombreUsuario }}. La vas a eliminar como administrador.</p>
+    }
+  }
   <div acciones>
     <button type="button" class="btn btn-fantasma" [disabled]="eliminando()" (click)="cancelarEliminar()">
       <span>Cancelar</span>

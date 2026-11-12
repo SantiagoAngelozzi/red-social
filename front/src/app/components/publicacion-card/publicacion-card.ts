@@ -15,6 +15,7 @@ export class PublicacionCard {
   ocupado = input(false);
   mostrarAcciones = input(true);
   grande = input(false);
+  esAdmin = input(false);
   tocarMeGusta = output<void>();
   tocarEliminar = output<void>();
 
@@ -24,4 +25,6 @@ export class PublicacionCard {
   });
 
   esMia = computed(() => this.publicacion().autor._id === this.usuarioId());
+
+  puedeEliminar = computed(() => this.esMia() || this.esAdmin());
 }

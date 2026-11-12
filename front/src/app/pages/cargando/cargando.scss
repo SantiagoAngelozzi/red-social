@@ -1,0 +1,69 @@
+.cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.pista {
+  position: relative;
+  width: 220px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--superficie-2);
+  overflow: hidden;
+  transform: skewX(-20deg);
+}
+
+.pista::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--naranja), var(--boost));
+  animation: boost 1.1s ease-in-out infinite;
+}
+
+.pelota {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  margin-top: -13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #cfd9ee 60%, #7d8db3);
+  border: 3px solid var(--noche);
+  animation: rodar 1.1s ease-in-out infinite;
+}
+
+.texto {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: 1.2rem;
+  color: var(--texto-suave);
+  transform: skewX(-8deg);
+}
+
+@keyframes boost {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes rodar {
+  from {
+    left: -26px;
+    transform: rotate(0deg);
+  }
+  to {
+    left: 100%;
+    transform: rotate(540deg);
+  }
+}

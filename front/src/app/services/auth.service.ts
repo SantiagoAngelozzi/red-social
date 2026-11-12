@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RespuestaAuth } from '../models/usuario';
+import { RespuestaAuth, Usuario } from '../models/usuario';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -15,5 +15,13 @@ export class AuthService {
 
   login(identificador: string, password: string): Observable<RespuestaAuth> {
     return this.http.post<RespuestaAuth>(`${this.api}/login`, { identificador, password });
+  }
+
+  autorizar(): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.api}/autorizar`, {});
+  }
+
+  refrescar(): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.api}/refrescar`, {});
   }
 }

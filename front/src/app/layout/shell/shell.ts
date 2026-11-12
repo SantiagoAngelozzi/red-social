@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Logo } from '../../shared/logo/logo';
+import { Modal } from '../../shared/modal/modal';
 import { SesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo, Modal],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })

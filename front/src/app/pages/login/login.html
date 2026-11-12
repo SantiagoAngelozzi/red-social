@@ -38,6 +38,9 @@
       @if (recienRegistrado) {
         <div class="aviso aviso-ok" role="status">¡Cuenta creada! Ya podés iniciar sesión.</div>
       }
+      @if (sesionVencida) {
+        <div class="aviso aviso-error" role="status">Tu sesión venció. Iniciá sesión de nuevo.</div>
+      }
       @if (errorServidor()) {
         <div class="aviso aviso-error" role="alert">{{ errorServidor() }}</div>
       }

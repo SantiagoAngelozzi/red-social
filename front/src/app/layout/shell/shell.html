@@ -42,6 +42,23 @@
           </svg>
         </button>
       </div>
+      
+      <app-modal
+        [abierto]="sesion.avisoVencimiento()"
+        titulo="Tu sesión está por vencer"
+        [tipo]="'info'"
+        (cerrar)="sesion.descartarAviso()"
+      >
+        <p>Te quedan 5 minutos. ¿Querés extender la sesión?</p>
+        <div acciones>
+          <button type="button" class="btn btn-fantasma" [disabled]="sesion.extendiendo()" (click)="sesion.descartarAviso()">
+            <span>No, gracias</span>
+          </button>
+          <button type="button" class="btn" [disabled]="sesion.extendiendo()" (click)="sesion.extender()">
+            <span>{{ sesion.extendiendo() ? 'Extendiendo...' : 'Extender sesión' }}</span>
+          </button>
+        </div>
+      </app-modal>
     }
   </aside>
 

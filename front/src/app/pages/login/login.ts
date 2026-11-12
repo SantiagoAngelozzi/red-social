@@ -31,6 +31,7 @@ export class Login {
   errorServidor = signal<string | null>(null);
 
   recienRegistrado = this.route.snapshot.queryParamMap.has('registrado');
+  sesionVencida = this.route.snapshot.queryParamMap.has('sesionVencida');
 
   mostrarError(campo: 'identificador' | 'password'): boolean {
     const control = this.form.controls[campo];

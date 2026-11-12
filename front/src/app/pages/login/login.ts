@@ -46,9 +46,9 @@ export class Login {
     const { identificador, password } = this.form.getRawValue();
 
     this.auth.login(identificador.trim(), password).subscribe({
-      next: (usuario) => {
+      next: (respuesta) => {
         this.cargando.set(false);
-        this.sesion.iniciar(usuario);
+        this.sesion.iniciar(respuesta.usuario, respuesta.token);
         this.router.navigate(['/publicaciones']);
       },
       error: (error: HttpErrorResponse) => {

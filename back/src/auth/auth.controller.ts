@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Headers, HttpCode, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { opcionesImagen } from '../file/opciones-imagen.js';
 import { AuthService } from './auth.service.js';
@@ -19,5 +19,17 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   login(@Body() datos: LoginDto) {
     return this.authService.login(datos);
+  }
+
+  @Post('autorizar')
+  @HttpCode(HttpStatus.OK)
+  autorizar(@Headers('authorization') authorization?: string) {
+    return this.authService.autorizar(authorization);
+  }
+
+  @Post('refrescar')
+  @HttpCode(HttpStatus.OK)
+  refrescar(@Headers('authorization') authorization?: string) {
+    return this.authService.refrescar(authorization);
   }
 }

@@ -11,3 +11,8 @@ export interface Usuario {
   activo: boolean;
   createdAt?: string;
 }
+
+export interface RespuestaAuth {
+  token: string;
+  usuario: Usuario;
+}

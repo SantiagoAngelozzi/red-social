@@ -170,3 +170,58 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+.card-enlace {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-enlace:hover {
+  color: var(--azul-claro);
+  text-decoration: underline;
+}
+
+.accion-comentar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  color: var(--texto-suave);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.accion-comentar svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.accion-comentar:hover {
+  background: rgba(30, 123, 255, 0.15);
+  color: var(--azul-claro);
+}
+
+.card.grande {
+  padding: 1.75rem 1.75rem 1rem;
+}
+
+.card.grande .card-titulo {
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  transform: skewX(-6deg);
+  transform-origin: left;
+}
+
+.card.grande .card-mensaje {
+  font-size: 1.1rem;
+}
+
+.card.grande .card-imagen {
+  max-height: 75vh;
+  object-fit: contain;
+  background: var(--noche);
+}

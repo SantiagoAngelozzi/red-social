@@ -1,4 +1,4 @@
-<article class="card" [class.mia]="esMia()">
+<article class="card" [class.mia]="esMia()" [class.grande]="grande()">
   <header class="card-cabecera">
     <div class="avatar">
       @if (publicacion().autor.imagenPerfil) {
@@ -36,7 +36,13 @@
     }
   </header>
 
-  <h3 class="card-titulo">{{ publicacion().titulo }}</h3>
+  @if (grande()) {
+    <h1 class="card-titulo">{{ publicacion().titulo }}</h1>
+  } @else {
+    <h3 class="card-titulo">
+      <a class="card-enlace" [routerLink]="['/publicaciones', publicacion()._id]">{{ publicacion().titulo }}</a>
+    </h3>
+  }
   <p class="card-mensaje">{{ publicacion().mensaje }}</p>
 
   @if (publicacion().imagen) {
@@ -58,5 +64,14 @@
       <span>{{ publicacion().cantidadMeGusta }}</span>
       <span class="sr-only">me gusta</span>
     </button>
+
+    @if (!grande()) {
+      <a class="accion-comentar" [routerLink]="['/publicaciones', publicacion()._id]">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 5h16v11H9l-5 4V5Z" />
+        </svg>
+        <span>Comentarios</span>
+      </a>
+    }
   </footer>
 </article>

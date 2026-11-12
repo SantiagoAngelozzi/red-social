@@ -1,0 +1,103 @@
+<div class="detalle">
+  <a routerLink="/publicaciones" class="volver">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg>
+    Volver a publicaciones
+  </a>
+
+  @if (cargando()) {
+    <p class="estado">Cargando publicación...</p>
+  } @else if (error()) {
+    <div class="vacio">
+      <h2>No encontramos la publicación</h2>
+      <p>{{ error() }}</p>
+      <a routerLink="/publicaciones" class="btn btn-chico"><span>Ir a publicaciones</span></a>
+    </div>
+  } @else {
+    @if (publicacion(); as actual) {
+      <app-publicacion-card
+        [publicacion]="actual"
+        [usuarioId]="sesion.usuario()?._id ?? null"
+        [ocupado]="procesandoMeGusta()"
+        [grande]="true"
+        (tocarMeGusta)="alternarMeGusta()"
+        (tocarEliminar)="confirmandoEliminar.set(true)"
+      />
+
+      <section class="comentarios" aria-labelledby="titulo-comentarios">
+        <h2 id="titulo-comentarios" class="comentarios-titulo">
+          Comentarios
+          <span class="contador-comentarios">{{ totalComentarios() }}</span>
+        </h2>
+
+        @if (errorEnvio()) {
+          <div class="aviso aviso-error" role="alert">{{ errorEnvio() }}</div>
+        }
+
+        <form class="nuevo" [formGroup]="form" (ngSubmit)="comentar()" novalidate>
+          <div class="campo" [class.invalido]="mostrarErrorMensaje()">
+            <textarea
+              class="campo-input"
+              formControlName="mensaje"
+              rows="2"
+              placeholder="Escribí un comentario..."
+              aria-label="Nuevo comentario"
+              [attr.maxlength]="maxComentario"
+            ></textarea>
+            <div class="nuevo-pie">
+              @if (mostrarErrorMensaje()) {
+                <p class="campo-error">Escribí un comentario.</p>
+              }
+              <span class="contador">{{ form.controls.mensaje.value.length }}/{{ maxComentario }}</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-chico btn-naranja" [disabled]="enviando()">
+            <span>{{ enviando() ? 'Enviando...' : 'Comentar' }}</span>
+          </button>
+        </form>
+
+        @if (errorComentarios()) {
+          <div class="aviso aviso-error" role="alert">{{ errorComentarios() }}</div>
+        }
+
+        <div class="lista-comentarios">
+          @for (comentario of comentarios(); track comentario._id) {
+            <app-comentario-item
+              [comentario]="comentario"
+              [usuarioId]="sesion.usuario()?._id ?? null"
+              (editado)="alEditar($event)"
+            />
+          } @empty {
+            @if (!cargandoComentarios() && !errorComentarios()) {
+              <p class="sin-comentarios">Todavía no hay comentarios. ¡Sé el primero!</p>
+            }
+          }
+        </div>
+
+        @if (cargandoComentarios()) {
+          <p class="estado">Cargando comentarios...</p>
+        } @else if (hayMas()) {
+          <button type="button" class="btn btn-fantasma btn-chico cargar-mas" (click)="cargarComentarios()">
+            <span>Cargar más ({{ totalComentarios() - comentarios().length }})</span>
+          </button>
+        }
+      </section>
+    }
+  }
+</div>
+
+<app-modal
+  [abierto]="confirmandoEliminar()"
+  titulo="¿Eliminar publicación?"
+  [tipo]="'peligro'"
+  (cerrar)="cancelarEliminar()"
+>
+  <p>Se va a eliminar "{{ publicacion()?.titulo }}". No vas a poder deshacerlo.</p>
+  <div acciones>
+    <button type="button" class="btn btn-fantasma" [disabled]="eliminando()" (click)="cancelarEliminar()">
+      <span>Cancelar</span>
+    </button>
+    <button type="button" class="btn btn-peligro" [disabled]="eliminando()" (click)="confirmarEliminar()">
+      <span>{{ eliminando() ? 'Eliminando...' : 'Eliminar' }}</span>
+    </button>
+  </div>
+</app-modal>

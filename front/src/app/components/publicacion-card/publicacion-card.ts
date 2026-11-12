@@ -1,10 +1,11 @@
 import { Component, computed, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Publicacion } from '../../models/publicacion';
 
 @Component({
   selector: 'app-publicacion-card',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './publicacion-card.html',
   styleUrl: './publicacion-card.scss',
 })
@@ -13,6 +14,7 @@ export class PublicacionCard {
   usuarioId = input<string | null>(null);
   ocupado = input(false);
   mostrarAcciones = input(true);
+  grande = input(false);
   tocarMeGusta = output<void>();
   tocarEliminar = output<void>();
 

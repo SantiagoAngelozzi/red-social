@@ -66,7 +66,20 @@
               />
               <div class="comentarios">
                 <h3 class="comentarios-titulo">Comentarios</h3>
-                <p class="comentarios-vacio">Todavía no hay comentarios.</p>
+                @if (comentarios()[publicacion._id]; as resumen) {
+                  <div class="comentarios-lista">
+                    @for (comentario of resumen.comentarios; track comentario._id) {
+                      <app-comentario-item [comentario]="comentario" [usuarioId]="usuario._id" [permitirEditar]="false" />
+                    } @empty {
+                      <p class="comentarios-vacio">Todavía no hay comentarios.</p>
+                    }
+                  </div>
+                  <a class="ver-todos" [routerLink]="['/publicaciones', publicacion._id]">
+                    {{ resumen.total > resumen.comentarios.length ? 'Ver los ' + resumen.total + ' comentarios' : 'Ir a la publicación' }}
+                  </a>
+                } @else {
+                  <p class="comentarios-vacio">Cargando comentarios...</p>
+                }
               </div>
             </div>
           } @empty {

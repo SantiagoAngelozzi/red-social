@@ -1,0 +1,119 @@
+.detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.volver {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem 0.35rem 0.4rem;
+  border-radius: 10px;
+  color: var(--texto-suave);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.volver:hover {
+  color: var(--texto);
+  background: var(--superficie-2);
+}
+
+.volver svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 22px;
+  background: var(--superficie);
+  border: 2px solid var(--borde);
+  border-top: 4px solid var(--naranja);
+}
+
+.comentarios-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  transform: skewX(-6deg);
+  transform-origin: left;
+}
+
+.contador-comentarios {
+  padding: 0.05rem 0.6rem;
+  border-radius: 8px;
+  background: var(--naranja);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.nuevo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+
+.nuevo .campo {
+  width: 100%;
+}
+
+.nuevo-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contador {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sin-comentarios,
+.estado {
+  margin: 0.5rem 0;
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.cargar-mas {
+  align-self: center;
+}
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1.5rem;
+  border: 3px dashed var(--borde);
+  border-radius: 22px;
+  text-align: center;
+}
+
+.vacio p {
+  margin: 0;
+  color: var(--texto-suave);
+}

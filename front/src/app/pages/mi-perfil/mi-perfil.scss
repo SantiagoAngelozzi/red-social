@@ -183,3 +183,21 @@
     grid-template-columns: 1fr;
   }
 }
+
+.comentarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.ver-todos {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ver-todos:hover {
+  text-decoration: underline;
+}

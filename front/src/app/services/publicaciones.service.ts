@@ -26,6 +26,10 @@ export class PublicacionesService {
     return this.http.get<RespuestaPublicaciones>(this.api, { params });
   }
 
+  buscarUna(id: string): Observable<Publicacion> {
+    return this.http.get<Publicacion>(`${this.api}/${id}`);
+  }
+
   crear(datos: FormData): Observable<Publicacion> {
     return this.http.post<Publicacion>(this.api, datos);
   }

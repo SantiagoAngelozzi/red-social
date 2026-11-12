@@ -1,0 +1,68 @@
+<article class="comentario" [class.mio]="esMio()">
+  <div class="avatar" aria-hidden="true">
+    @if (comentario().autor.imagenPerfil) {
+      <img [src]="comentario().autor.imagenPerfil" alt="" />
+    } @else {
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+      </svg>
+    }
+  </div>
+
+  <div class="cuerpo">
+    <header class="cabecera">
+      <span class="usuario">{{ comentario().autor.nombreUsuario }}</span>
+      @if (esMio()) {
+        <span class="etiqueta-vos">Vos</span>
+      }
+      <time class="fecha" [attr.datetime]="comentario().createdAt">
+        {{ comentario().createdAt | date: 'dd/MM/yyyy HH:mm' }}
+      </time>
+      @if (comentario().modificado) {
+        <span class="editado" [attr.title]="'Editado el ' + (comentario().updatedAt | date: 'dd/MM/yyyy HH:mm')">
+          (editado)
+        </span>
+      }
+      @if (esMio() && permitirEditar() && !editando()) {
+        <button
+          type="button"
+          class="editar"
+          (click)="empezarEdicion()"
+          aria-label="Editar comentario"
+          title="Editar comentario"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20h4L19 9l-4-4L4 16v4Z" />
+            <path d="m13.5 6.5 4 4" />
+          </svg>
+        </button>
+      }
+    </header>
+
+    @if (editando()) {
+      <div class="edicion">
+        <textarea
+          class="campo-input"
+          [formControl]="texto"
+          rows="2"
+          aria-label="Editar comentario"
+          [attr.maxlength]="maxMensaje"
+        ></textarea>
+        @if (error()) {
+          <p class="campo-error">{{ error() }}</p>
+        }
+        <div class="edicion-acciones">
+          <button type="button" class="btn btn-fantasma btn-chico" [disabled]="guardando()" (click)="cancelar()">
+            <span>Cancelar</span>
+          </button>
+          <button type="button" class="btn btn-chico" [disabled]="guardando()" (click)="guardar()">
+            <span>{{ guardando() ? 'Guardando...' : 'Guardar' }}</span>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <p class="mensaje">{{ comentario().mensaje }}</p>
+    }
+  </div>
+</article>

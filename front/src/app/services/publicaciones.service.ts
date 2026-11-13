@@ -34,15 +34,15 @@ export class PublicacionesService {
     return this.http.post<Publicacion>(this.api, datos);
   }
 
-  darMeGusta(id: string, usuarioId: string): Observable<Publicacion> {
-    return this.http.post<Publicacion>(`${this.api}/${id}/me-gusta`, { usuarioId });
+  darMeGusta(id: string): Observable<Publicacion> {
+    return this.http.post<Publicacion>(`${this.api}/${id}/me-gusta`, {});
   }
 
-  quitarMeGusta(id: string, usuarioId: string): Observable<Publicacion> {
-    return this.http.delete<Publicacion>(`${this.api}/${id}/me-gusta`, { body: { usuarioId } });
+  quitarMeGusta(id: string): Observable<Publicacion> {
+    return this.http.delete<Publicacion>(`${this.api}/${id}/me-gusta`);
   }
 
-  eliminar(id: string, usuarioId: string): Observable<{ mensaje: string }> {
-    return this.http.delete<{ mensaje: string }>(`${this.api}/${id}`, { body: { usuarioId } });
+  eliminar(id: string): Observable<{ mensaje: string }> {
+    return this.http.delete<{ mensaje: string }>(`${this.api}/${id}`);
   }
 }

@@ -64,7 +64,7 @@ export class ComentarioItem {
     this.guardando.set(true);
     this.error.set(null);
 
-    this.comentariosService.editar(this.comentario()._id, usuarioId, mensaje).subscribe({
+    this.comentariosService.editar(this.comentario()._id, mensaje).subscribe({
       next: (actualizado) => {
         this.guardando.set(false);
         this.editando.set(false);

@@ -95,8 +95,8 @@ export class Publicaciones implements OnInit, OnDestroy {
 
     const yaDado = publicacion.meGusta.includes(usuario._id);
     const pedido = yaDado
-      ? this.publicacionesService.quitarMeGusta(publicacion._id, usuario._id)
-      : this.publicacionesService.darMeGusta(publicacion._id, usuario._id);
+      ? this.publicacionesService.quitarMeGusta(publicacion._id)
+      : this.publicacionesService.darMeGusta(publicacion._id);
 
     this.procesando.set(publicacion._id);
     this.error.set(null);
@@ -130,7 +130,7 @@ export class Publicaciones implements OnInit, OnDestroy {
     if (!publicacion || !usuario) return;
 
     this.eliminando.set(true);
-    this.publicacionesService.eliminar(publicacion._id, usuario._id).subscribe({
+    this.publicacionesService.eliminar(publicacion._id).subscribe({
       next: () => {
         this.eliminando.set(false);
         this.aEliminar.set(null);

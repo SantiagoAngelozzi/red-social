@@ -4,9 +4,9 @@ import { Model, Types } from 'mongoose';
 import type { SortOrder } from 'mongoose';
 import { Publicacion } from './schemas/publicacion.schema.js';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
-import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js'; 
-import { UsuariosService } from '../usuarios/usuarios.service.js';
-import { FileService } from '../file/file.service.js'; 
+import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js';
+import type { UsuarioDocument } from '../usuarios/schemas/usuario.schema.js';
+import { FileService } from '../file/file.service.js';
 
 const CARPETA_PUBLICACIONES = 'rocket-social/publicaciones';
 const DATOS_AUTOR = 'nombre apellido nombreUsuario imagenPerfil';
@@ -15,16 +15,10 @@ const DATOS_AUTOR = 'nombre apellido nombreUsuario imagenPerfil';
 export class PublicacionesService {
   constructor(
     @InjectModel(Publicacion.name) private readonly publicacionModel: Model<Publicacion>,
-    private readonly usuariosService: UsuariosService,
     private readonly fileService: FileService,
   ) {}
 
-  async crear(datos: CrearPublicacionDto, imagen?: Express.Multer.File) {
-    const autor = await this.usuariosService.buscarPorId(datos.autorId);
-    if (!autor || !autor.activo) {
-      throw new NotFoundException('El autor no existe o está deshabilitado');
-    }
-
+  async crear(datos: CrearPublicacionDto, autor: UsuarioDocument, imagen?: Express.Multer.File) {
     const urlImagen = imagen
       ? await this.fileService.cloudinaryUploader(imagen, CARPETA_PUBLICACIONES)
       : null;
@@ -39,7 +33,7 @@ export class PublicacionesService {
     return publicacion.populate('autor', DATOS_AUTOR);
   }
 
-    async listar({ orden = 'fecha', autor, offset = 0, limit = 10 }: ListarPublicacionesDto) {
+  async listar({ orden = 'fecha', autor, offset = 0, limit = 10 }: ListarPublicacionesDto) {
     const filtro: { activo: boolean; autor?: Types.ObjectId } = { activo: true };
     if (autor) {
       filtro.autor = new Types.ObjectId(autor);
@@ -61,7 +55,7 @@ export class PublicacionesService {
     return { publicaciones, total, offset, limit };
   }
 
-    async buscarActiva(id: string) {
+  async buscarActiva(id: string) {
     const publicacion = await this.publicacionModel
       .findOne({ _id: id, activo: true })
       .populate('autor', DATOS_AUTOR);
@@ -71,14 +65,11 @@ export class PublicacionesService {
     return publicacion;
   }
 
-    async darMeGusta(id: string, usuarioId: string) {
-    await this.validarUsuario(usuarioId);
-    const usuario = new Types.ObjectId(usuarioId);
-
+  async darMeGusta(id: string, usuario: UsuarioDocument) {
     const publicacion = await this.publicacionModel
       .findOneAndUpdate(
-        { _id: id, activo: true, meGusta: { $ne: usuario } },
-        { $push: { meGusta: usuario }, $inc: { cantidadMeGusta: 1 } },
+        { _id: id, activo: true, meGusta: { $ne: usuario._id } },
+        { $push: { meGusta: usuario._id }, $inc: { cantidadMeGusta: 1 } },
         { returnDocument: 'after' },
       )
       .populate('autor', DATOS_AUTOR);
@@ -90,14 +81,11 @@ export class PublicacionesService {
     return publicacion;
   }
 
-  async quitarMeGusta(id: string, usuarioId: string) {
-    await this.validarUsuario(usuarioId);
-    const usuario = new Types.ObjectId(usuarioId);
-
+  async quitarMeGusta(id: string, usuario: UsuarioDocument) {
     const publicacion = await this.publicacionModel
       .findOneAndUpdate(
-        { _id: id, activo: true, meGusta: usuario },
-        { $pull: { meGusta: usuario }, $inc: { cantidadMeGusta: -1 } },
+        { _id: id, activo: true, meGusta: usuario._id },
+        { $pull: { meGusta: usuario._id }, $inc: { cantidadMeGusta: -1 } },
         { returnDocument: 'after' },
       )
       .populate('autor', DATOS_AUTOR);
@@ -109,9 +97,7 @@ export class PublicacionesService {
     return publicacion;
   }
 
-  async eliminar(id: string, usuarioId: string) {
-    const usuario = await this.validarUsuario(usuarioId);
-
+  async eliminar(id: string, usuario: UsuarioDocument) {
     const publicacion = await this.publicacionModel.findOne({ _id: id, activo: true });
     if (!publicacion) {
       throw new NotFoundException('La publicación no existe');
@@ -127,14 +113,6 @@ export class PublicacionesService {
     await publicacion.save();
 
     return { mensaje: 'Publicación eliminada' };
-  }
-
-  private async validarUsuario(usuarioId: string) {
-    const usuario = await this.usuariosService.buscarPorId(usuarioId);
-    if (!usuario || !usuario.activo) {
-      throw new NotFoundException('El usuario no existe o está deshabilitado');
-    }
-    return usuario;
   }
 
   private async validarPublicacion(id: string) {

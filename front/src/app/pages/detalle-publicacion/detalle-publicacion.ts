@@ -106,7 +106,7 @@ export class DetallePublicacion implements OnInit {
     const mensaje = this.form.controls.mensaje.value.trim();
     this.enviando.set(true);
 
-    this.comentariosService.crear(this.id, usuario._id, mensaje).subscribe({
+    this.comentariosService.crear(this.id, mensaje).subscribe({
       next: (comentario) => {
         this.comentarios.update((lista) => [comentario, ...lista]);
         this.totalComentarios.update((total) => total + 1);
@@ -132,8 +132,8 @@ export class DetallePublicacion implements OnInit {
 
     const yaDado = publicacion.meGusta.includes(usuario._id);
     const pedido = yaDado
-      ? this.publicacionesService.quitarMeGusta(publicacion._id, usuario._id)
-      : this.publicacionesService.darMeGusta(publicacion._id, usuario._id);
+      ? this.publicacionesService.quitarMeGusta(publicacion._id)
+      : this.publicacionesService.darMeGusta(publicacion._id);
 
     this.procesandoMeGusta.set(true);
     pedido.subscribe({
@@ -159,7 +159,7 @@ export class DetallePublicacion implements OnInit {
     if (!publicacion || !usuario) return;
 
     this.eliminando.set(true);
-    this.publicacionesService.eliminar(publicacion._id, usuario._id).subscribe({
+    this.publicacionesService.eliminar(publicacion._id).subscribe({
       next: () => {
         this.eliminando.set(false);
         this.confirmandoEliminar.set(false);

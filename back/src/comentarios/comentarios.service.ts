@@ -4,9 +4,9 @@ import { Model, Types } from 'mongoose';
 import { Comentario } from './schemas/comentario.schema.js';
 import { CrearComentarioDto } from './dto/crear-comentario.dto.js';
 import { ListarComentariosDto } from './dto/listar-comentarios.dto.js';
-import { PublicacionesService } from '../publicaciones/publicaciones.service.js';
-import { UsuariosService } from '../usuarios/usuarios.service.js';
 import { EditarComentarioDto } from './dto/editar-comentario.dto.js';
+import { PublicacionesService } from '../publicaciones/publicaciones.service.js';
+import type { UsuarioDocument } from '../usuarios/schemas/usuario.schema.js';
 
 const DATOS_AUTOR = 'nombre apellido nombreUsuario imagenPerfil';
 
@@ -15,20 +15,14 @@ export class ComentariosService {
   constructor(
     @InjectModel(Comentario.name) private readonly comentarioModel: Model<Comentario>,
     private readonly publicacionesService: PublicacionesService,
-    private readonly usuariosService: UsuariosService,
   ) {}
 
-  async crear(publicacionId: string, { usuarioId, mensaje }: CrearComentarioDto) {
+  async crear(publicacionId: string, autor: UsuarioDocument, { mensaje }: CrearComentarioDto) {
     await this.publicacionesService.buscarActiva(publicacionId);
-
-    const usuario = await this.usuariosService.buscarPorId(usuarioId);
-    if (!usuario || !usuario.activo) {
-      throw new NotFoundException('El usuario no existe o está deshabilitado');
-    }
 
     const comentario = await this.comentarioModel.create({
       mensaje,
-      autor: usuario._id,
+      autor: autor._id,
       publicacion: new Types.ObjectId(publicacionId),
     });
 
@@ -53,18 +47,13 @@ export class ComentariosService {
     return { comentarios, total, offset, limit };
   }
 
-  async editar(id: string, { usuarioId, mensaje }: EditarComentarioDto) {
+  async editar(id: string, usuario: UsuarioDocument, { mensaje }: EditarComentarioDto) {
     const comentario = await this.comentarioModel.findById(id);
     if (!comentario) {
       throw new NotFoundException('El comentario no existe');
     }
 
     await this.publicacionesService.buscarActiva(comentario.publicacion.toString());
-
-    const usuario = await this.usuariosService.buscarPorId(usuarioId);
-    if (!usuario || !usuario.activo) {
-      throw new NotFoundException('El usuario no existe o está deshabilitado');
-    }
 
     if (!comentario.autor.equals(usuario._id)) {
       throw new ForbiddenException('Solo podés editar tus propios comentarios');

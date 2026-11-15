@@ -87,3 +87,14 @@
   color: var(--texto-suave);
   font-weight: 600;
 }
+
+:host::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(10, 20, 48, 0.82), rgba(10, 20, 48, 0.95)),
+    url('/fondos/fondo-feed.jpg') center / cover no-repeat;
+  pointer-events: none;
+}

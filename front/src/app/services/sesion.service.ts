@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 const CLAVE_USUARIO = 'usuario';
 const CLAVE_TOKEN = 'token';
-const AVISO_ANTES_MS = 5 * 60 * 1000;
+const AVISO_ANTES_MS =  30 * 1000;
 
 @Injectable({ providedIn: 'root' })
 export class SesionService {

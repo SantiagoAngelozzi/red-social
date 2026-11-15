@@ -42,8 +42,14 @@
           </svg>
         </button>
       </div>
-      
-      <app-modal
+    }
+  </aside>
+
+  <main class="contenido">
+    <router-outlet />
+  </main>
+</div>
+<app-modal
         [abierto]="sesion.avisoVencimiento()"
         titulo="Tu sesión está por vencer"
         [tipo]="'info'"
@@ -59,10 +65,3 @@
           </button>
         </div>
       </app-modal>
-    }
-  </aside>
-
-  <main class="contenido">
-    <router-outlet />
-  </main>
-</div>

@@ -7,7 +7,7 @@ import { FileModule } from '../file/file.module.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 
-const DURACION_TOKEN_SEGUNDOS = 15 * 60;
+const DURACION_TOKEN_SEGUNDOS = 1 * 60;
 
 @Module({
   imports: [

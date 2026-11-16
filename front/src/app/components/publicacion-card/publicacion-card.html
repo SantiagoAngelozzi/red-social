@@ -66,11 +66,12 @@
     </button>
 
     @if (!grande()) {
-      <a class="accion-comentar" [routerLink]="['/publicaciones', publicacion()._id]">
+      <a class="accion-comentar" [routerLink]="['/publicaciones', publicacion()._id]" title="Ver comentarios">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 5h16v11H9l-5 4V5Z" />
         </svg>
-        <span>Comentarios</span>
+        <span>{{ publicacion().cantidadComentarios ?? 0 }}</span>
+        <span class="sr-only">comentarios</span>
       </a>
     }
   </footer>

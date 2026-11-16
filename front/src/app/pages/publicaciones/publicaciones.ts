@@ -104,7 +104,9 @@ export class Publicaciones implements OnInit, OnDestroy {
     pedido.subscribe({
       next: (actualizada) => {
         this.publicaciones.update((lista) =>
-          lista.map((p) => (p._id === actualizada._id ? actualizada : p)),
+          lista.map((p) =>
+            p._id === actualizada._id ? { ...actualizada, cantidadComentarios: p.cantidadComentarios } : p,
+          ),
         );
         this.procesando.set(null);
       },

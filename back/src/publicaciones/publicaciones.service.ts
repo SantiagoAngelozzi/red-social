@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import type { SortOrder } from 'mongoose';
 import { Publicacion } from './schemas/publicacion.schema.js';
+import { Comentario } from '../comentarios/schemas/comentario.schema.js';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
 import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js';
 import type { UsuarioDocument } from '../usuarios/schemas/usuario.schema.js';
@@ -15,6 +16,7 @@ const DATOS_AUTOR = 'nombre apellido nombreUsuario imagenPerfil';
 export class PublicacionesService {
   constructor(
     @InjectModel(Publicacion.name) private readonly publicacionModel: Model<Publicacion>,
+    @InjectModel(Comentario.name) private readonly comentarioModel: Model<Comentario>,
     private readonly fileService: FileService,
   ) {}
 
@@ -48,11 +50,26 @@ export class PublicacionesService {
         .sort(ordenamiento)
         .skip(offset)
         .limit(limit)
-        .populate('autor', DATOS_AUTOR),
+        .populate('autor', DATOS_AUTOR)
+        .lean(),
       this.publicacionModel.countDocuments(filtro),
     ]);
 
-    return { publicaciones, total, offset, limit };
+    const conteos = await this.comentarioModel.aggregate<{ _id: Types.ObjectId; cantidad: number }>([
+      { $match: { publicacion: { $in: publicaciones.map((publicacion) => publicacion._id) } } },
+      { $group: { _id: '$publicacion', cantidad: { $sum: 1 } } },
+    ]);
+    const cantidades = new Map(conteos.map((conteo) => [conteo._id.toString(), conteo.cantidad]));
+
+    return {
+      publicaciones: publicaciones.map((publicacion) => ({
+        ...publicacion,
+        cantidadComentarios: cantidades.get(publicacion._id.toString()) ?? 0,
+      })),
+      total,
+      offset,
+      limit,
+    };
   }
 
   async buscarActiva(id: string) {

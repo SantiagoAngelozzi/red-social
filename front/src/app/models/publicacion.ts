@@ -14,6 +14,7 @@ export interface Publicacion {
   autor: AutorPublicacion;
   meGusta: string[];
   cantidadMeGusta: number;
+  cantidadComentarios?: number;
   activo: boolean;
   createdAt: string;
   updatedAt: string;

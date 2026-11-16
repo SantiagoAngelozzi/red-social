@@ -8,6 +8,7 @@ import { UsuariosModule } from './usuarios/usuarios.module.js';
 import { PublicacionesModule } from './publicaciones/publicaciones.module.js';
 import { FileModule } from './file/file.module.js';
 import { ComentariosModule } from './comentarios/comentarios.module.js';
+import { EstadisticasModule } from './estadisticas/estadisticas.module.js';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ComentariosModule } from './comentarios/comentarios.module.js';
     AuthModule,
     UsuariosModule,
     PublicacionesModule,
+    EstadisticasModule,
     FileModule,
     ComentariosModule,
   ],

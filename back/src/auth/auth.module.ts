@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { PasswordHasher } from '@nestjs/authentication';
 import { UsuariosModule } from '../usuarios/usuarios.module.js';
-import { FileModule } from '../file/file.module.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 
@@ -12,7 +10,6 @@ const DURACION_TOKEN_SEGUNDOS = 1 * 60;
 @Module({
   imports: [
     UsuariosModule,
-    FileModule,
     JwtModule.registerAsync({
       global: true,
       inject: [ConfigService],
@@ -23,6 +20,6 @@ const DURACION_TOKEN_SEGUNDOS = 1 * 60;
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, { provide: PasswordHasher, useValue: new PasswordHasher() }],
+  providers: [AuthService],
 })
 export class AuthModule {}

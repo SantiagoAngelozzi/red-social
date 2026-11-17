@@ -1,0 +1,108 @@
+<div class="panel">
+  <header class="cabecera">
+    <div>
+      <h1 class="titulo">Usuarios</h1>
+      <p class="bajada">{{ usuarios().length }} usuarios · {{ cantidadActivos() }} activos</p>
+    </div>
+    @if (!mostrandoFormulario()) {
+      <button type="button" class="btn btn-naranja btn-chico" (click)="mostrandoFormulario.set(true)">
+        <span>Nuevo usuario</span>
+      </button>
+    }
+  </header>
+
+  @if (mostrandoFormulario()) {
+    <app-form-usuario (creado)="alCrear($event)" (cancelado)="mostrandoFormulario.set(false)" />
+  }
+
+  @if (aviso()) {
+    <div class="aviso aviso-ok" role="status">{{ aviso() }}</div>
+  }
+  @if (error()) {
+    <div class="aviso aviso-error" role="alert">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Cargando usuarios...</p>
+  } @else {
+    <ul class="lista">
+      @for (usuario of usuarios(); track usuario._id) {
+        <li class="fila" [class.inactiva]="!usuario.activo">
+          <div class="avatar">
+            @if (usuario.imagenPerfil) {
+              <img [src]="usuario.imagenPerfil" alt="" />
+            } @else {
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+              </svg>
+            }
+          </div>
+
+          <div class="datos">
+            <span class="nombre">
+              {{ usuario.nombre }} {{ usuario.apellido }}
+              @if (esYo(usuario)) {
+                <span class="etiqueta etiqueta-vos">Vos</span>
+              }
+            </span>
+            <span class="secundario">&#64;{{ usuario.nombreUsuario }} · {{ usuario.correo }}</span>
+            <span class="secundario">Desde {{ usuario.createdAt | date: 'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div class="etiquetas">
+            <span class="etiqueta" [class.etiqueta-admin]="usuario.perfil === 'administrador'">
+              {{ usuario.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}
+            </span>
+            <span class="etiqueta" [class.etiqueta-ok]="usuario.activo" [class.etiqueta-baja]="!usuario.activo">
+              {{ usuario.activo ? 'Activo' : 'Deshabilitado' }}
+            </span>
+          </div>
+
+          <div class="accion">
+            @if (!esYo(usuario)) {
+              <button
+                type="button"
+                class="btn btn-chico"
+                [class.btn-peligro]="usuario.activo"
+                [class.btn-fantasma]="!usuario.activo"
+                (click)="pedirCambio(usuario)"
+              >
+                <span>{{ usuario.activo ? 'Deshabilitar' : 'Habilitar' }}</span>
+              </button>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+<app-modal
+  [abierto]="aCambiar() !== null"
+  [titulo]="aCambiar()?.activo ? '¿Deshabilitar usuario?' : '¿Habilitar usuario?'"
+  [tipo]="aCambiar()?.activo ? 'peligro' : 'info'"
+  (cerrar)="cancelarCambio()"
+>
+  @if (aCambiar(); as usuario) {
+    @if (usuario.activo) {
+      <p>&#64;{{ usuario.nombreUsuario }} no va a poder iniciar sesión hasta que lo vuelvas a habilitar.</p>
+    } @else {
+      <p>&#64;{{ usuario.nombreUsuario }} va a poder volver a iniciar sesión.</p>
+    }
+  }
+  <div acciones>
+    <button type="button" class="btn btn-fantasma" [disabled]="cambiando()" (click)="cancelarCambio()">
+      <span>Cancelar</span>
+    </button>
+    <button
+      type="button"
+      class="btn"
+      [class.btn-peligro]="aCambiar()?.activo"
+      [disabled]="cambiando()"
+      (click)="confirmarCambio()"
+    >
+      <span>{{ cambiando() ? 'Guardando...' : aCambiar()?.activo ? 'Deshabilitar' : 'Habilitar' }}</span>
+    </button>
+  </div>
+</app-modal>

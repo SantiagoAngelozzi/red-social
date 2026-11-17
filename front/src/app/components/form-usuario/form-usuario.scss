@@ -1,0 +1,83 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 22px;
+  background: var(--superficie);
+  border: 2px solid var(--borde);
+  border-top: 4px solid var(--naranja);
+}
+
+.formulario-titulo {
+  font-size: 1.4rem;
+  transform: skewX(-6deg);
+  transform-origin: left;
+}
+
+.perfil {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.perfil legend {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.opcion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border: 2px solid var(--borde);
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.opcion:has(input:checked) {
+  border-color: var(--naranja);
+  background: rgba(255, 138, 31, 0.12);
+}
+
+.opcion input {
+  accent-color: var(--naranja);
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.completo {
+  grid-column: 1 / -1;
+}
+
+.archivo {
+  align-self: flex-start;
+  max-width: 100%;
+}
+
+.archivo span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .grilla {
+    grid-template-columns: 1fr;
+  }
+}

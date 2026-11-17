@@ -1,0 +1,104 @@
+<form class="formulario" [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+  <h2 class="formulario-titulo">Nuevo usuario</h2>
+
+  @if (errorServidor()) {
+    <div class="aviso aviso-error" role="alert">{{ errorServidor() }}</div>
+  }
+
+  <fieldset class="perfil">
+    <legend class="campo-label">Perfil</legend>
+    <label class="opcion">
+      <input type="radio" formControlName="perfil" value="usuario" />
+      <span>Usuario</span>
+    </label>
+    <label class="opcion">
+      <input type="radio" formControlName="perfil" value="administrador" />
+      <span>Administrador</span>
+    </label>
+  </fieldset>
+
+  <div class="grilla">
+    <div class="campo" [class.invalido]="mostrarError('nombre')">
+      <label class="campo-label" for="fu-nombre">Nombre</label>
+      <input id="fu-nombre" class="campo-input" formControlName="nombre" />
+      @if (mostrarError('nombre')) {
+        <p class="campo-error">Obligatorio, solo letras, hasta 50.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('apellido')">
+      <label class="campo-label" for="fu-apellido">Apellido</label>
+      <input id="fu-apellido" class="campo-input" formControlName="apellido" />
+      @if (mostrarError('apellido')) {
+        <p class="campo-error">Obligatorio, solo letras, hasta 50.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('correo')">
+      <label class="campo-label" for="fu-correo">Correo</label>
+      <input id="fu-correo" class="campo-input" type="email" formControlName="correo" />
+      @if (mostrarError('correo')) {
+        <p class="campo-error">Escribí un correo válido.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('nombreUsuario')">
+      <label class="campo-label" for="fu-usuario">Nombre de usuario</label>
+      <input id="fu-usuario" class="campo-input" formControlName="nombreUsuario" />
+      @if (mostrarError('nombreUsuario')) {
+        <p class="campo-error">Entre 3 y 20: letras, números, punto o guion bajo.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('password')">
+      <label class="campo-label" for="fu-password">Contraseña</label>
+      <input id="fu-password" class="campo-input" type="password" formControlName="password" autocomplete="new-password" />
+      @if (mostrarError('password')) {
+        <p class="campo-error">8 caracteres o más, una mayúscula y un número.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('repetirPassword') || passwordsDistintas()">
+      <label class="campo-label" for="fu-repetir">Repetir contraseña</label>
+      <input id="fu-repetir" class="campo-input" type="password" formControlName="repetirPassword" autocomplete="new-password" />
+      @if (mostrarError('repetirPassword')) {
+        <p class="campo-error">Repetí la contraseña.</p>
+      } @else if (passwordsDistintas()) {
+        <p class="campo-error">Las contraseñas no coinciden.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('fechaNacimiento')">
+      <label class="campo-label" for="fu-fecha">Fecha de nacimiento</label>
+      <input id="fu-fecha" class="campo-input" type="date" formControlName="fechaNacimiento" [max]="hoy" />
+      @if (mostrarError('fechaNacimiento')) {
+        <p class="campo-error">Obligatoria, no futura y de al menos 13 años.</p>
+      }
+    </div>
+
+    <div class="campo">
+      <span class="campo-label">Foto de perfil (opcional)</span>
+      <label class="btn btn-fantasma btn-chico archivo">
+        <span>{{ imagen()?.name ?? 'Elegir imagen' }}</span>
+        <input type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" (change)="elegirImagen($event)" />
+      </label>
+      @if (errorImagen()) {
+        <p class="campo-error">{{ errorImagen() }}</p>
+      }
+    </div>
+
+    <div class="campo completo" [class.invalido]="mostrarError('descripcion')">
+      <label class="campo-label" for="fu-descripcion">Descripción (opcional)</label>
+      <textarea id="fu-descripcion" class="campo-input" formControlName="descripcion" rows="2" maxlength="200"></textarea>
+    </div>
+  </div>
+
+  <div class="acciones">
+    <button type="button" class="btn btn-fantasma" [disabled]="cargando()" (click)="cancelado.emit()">
+      <span>Cancelar</span>
+    </button>
+    <button type="submit" class="btn btn-naranja" [disabled]="cargando()">
+      <span>{{ cargando() ? 'Creando...' : 'Crear usuario' }}</span>
+    </button>
+  </div>
+</form>

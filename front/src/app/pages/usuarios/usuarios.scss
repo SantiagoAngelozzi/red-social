@@ -1,0 +1,158 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.titulo {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  transform: skewX(-6deg);
+  transform-origin: left;
+}
+
+.bajada {
+  margin: 0.25rem 0 0;
+  color: var(--texto-suave);
+}
+
+.estado {
+  margin: 2rem 0;
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 18px;
+  background: var(--superficie);
+  border: 2px solid var(--borde);
+}
+
+.fila.inactiva {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+  border: 3px solid var(--azul-claro);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.datos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.nombre {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.secundario {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.etiqueta {
+  padding: 0.15rem 0.6rem;
+  border-radius: 8px;
+  background: var(--superficie-2);
+  color: var(--texto);
+  font-family: var(--fuente-display);
+  font-size: 0.75rem;
+  transform: skewX(-10deg);
+}
+
+.etiqueta-admin,
+.etiqueta-vos {
+  background: var(--naranja);
+  color: #fff;
+}
+
+.etiqueta-ok {
+  background: rgba(61, 220, 151, 0.18);
+  color: var(--ok);
+}
+
+.etiqueta-baja {
+  background: rgba(255, 77, 109, 0.18);
+  color: var(--error);
+}
+
+@media (max-width: 700px) {
+  .fila {
+    grid-template-columns: auto 1fr;
+  }
+
+  .etiquetas,
+  .accion {
+    grid-column: 2;
+  }
+}
+
+:host::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(10, 20, 48, 0.82), rgba(10, 20, 48, 0.95)),
+    url('/fondos/fondo-feed.jpg') center / cover no-repeat;
+  pointer-events: none;
+}

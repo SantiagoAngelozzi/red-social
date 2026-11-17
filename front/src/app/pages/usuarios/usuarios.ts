@@ -7,10 +7,13 @@ import { Usuario } from '../../models/usuario';
 import { UsuariosService } from '../../services/usuarios.service';
 import { SesionService } from '../../services/sesion.service';
 import { mensajeDeError } from '../../services/mensaje-error';
+import { EdadPipe } from '../../pipes/edad.pipe';
+import { TruncarPipe } from '../../pipes/truncar.pipe';
+import { ImagenRespaldoDirective } from '../../directivas/imagen-respaldo.directive';
 
 @Component({
   selector: 'app-usuarios',
-  imports: [DatePipe, FormUsuario, Modal],
+  imports: [DatePipe, FormUsuario, Modal, EdadPipe, TruncarPipe, ImagenRespaldoDirective],
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.scss',
 })

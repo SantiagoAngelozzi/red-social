@@ -30,7 +30,7 @@
         <li class="fila" [class.inactiva]="!usuario.activo">
           <div class="avatar">
             @if (usuario.imagenPerfil) {
-              <img [src]="usuario.imagenPerfil" alt="" />
+              <img appImagenRespaldo [src]="usuario.imagenPerfil" alt="" />
             } @else {
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="8" r="4" />
@@ -47,7 +47,10 @@
               }
             </span>
             <span class="secundario">&#64;{{ usuario.nombreUsuario }} · {{ usuario.correo }}</span>
-            <span class="secundario">Desde {{ usuario.createdAt | date: 'dd/MM/yyyy' }}</span>
+            <span class="secundario">{{ usuario.fechaNacimiento | edad }} · desde {{ usuario.createdAt | date: 'dd/MM/yyyy' }}</span>
+            @if (usuario.descripcion) {
+              <span class="secundario descripcion">"{{ usuario.descripcion | truncar: 60 }}"</span>
+            }
           </div>
 
           <div class="etiquetas">

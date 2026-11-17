@@ -1,11 +1,13 @@
 import { Component, computed, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { TiempoRelativoPipe } from '../../pipes/tiempo-relativo.pipe';
+import { ImagenRespaldoDirective } from '../../directivas/imagen-respaldo.directive';
 import { RouterLink } from '@angular/router';
 import { Publicacion } from '../../models/publicacion';
 
 @Component({
   selector: 'app-publicacion-card',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, TiempoRelativoPipe, ImagenRespaldoDirective],
   templateUrl: './publicacion-card.html',
   styleUrl: './publicacion-card.scss',
 })

@@ -5,12 +5,15 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Comentario } from '../../models/comentario';
 import { ComentariosService } from '../../services/comentarios.service';
 import { mensajeDeError } from '../../services/mensaje-error';
+import { TiempoRelativoPipe } from '../../pipes/tiempo-relativo.pipe';
+import { ImagenRespaldoDirective } from '../../directivas/imagen-respaldo.directive';
+import { AutofocoDirective } from '../../directivas/autofoco.directive';
 
 const MAX_MENSAJE = 300;
 
 @Component({
   selector: 'app-comentario-item',
-  imports: [DatePipe, ReactiveFormsModule],
+  imports: [DatePipe, ReactiveFormsModule, TiempoRelativoPipe, ImagenRespaldoDirective, AutofocoDirective],
   templateUrl: './comentario-item.html',
   styleUrl: './comentario-item.scss',
 })

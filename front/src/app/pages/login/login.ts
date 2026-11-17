@@ -7,10 +7,11 @@ import { AuthService } from '../../services/auth.service';
 import { mensajeDeError } from '../../services/mensaje-error';
 import { correoOUsuario, passwordSegura } from '../../validators/validadores';
 import { SesionService } from '../../services/sesion.service';
+import { AutofocoDirective } from '../../directivas/autofoco.directive';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, Logo],
+  imports: [ReactiveFormsModule, RouterLink, Logo, AutofocoDirective],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

@@ -18,30 +18,28 @@
         </svg>
         <span>Mi perfil</span>
       </a>
-      @if (esAdmin()) {
-        <a routerLink="/usuarios" routerLinkActive="activo" class="nav-link">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="9" cy="8" r="3.5" />
-            <path d="M2.5 20c1.2-3.6 3.6-5.5 6.5-5.5s5.3 1.9 6.5 5.5" />
-            <circle cx="17" cy="9" r="2.5" />
-            <path d="M16 14.6c2.6.2 4.4 1.9 5.5 5.4" />
-          </svg>
-          <span>Usuarios</span>
-        </a>
-        <a routerLink="/estadisticas" routerLinkActive="activo" class="nav-link">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
-          </svg>
-          <span>Estadísticas</span>
-        </a>
-      }
+      <a *appSoloAdmin routerLink="/usuarios" routerLinkActive="activo" class="nav-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="9" cy="8" r="3.5" />
+          <path d="M2.5 20c1.2-3.6 3.6-5.5 6.5-5.5s5.3 1.9 6.5 5.5" />
+          <circle cx="17" cy="9" r="2.5" />
+          <path d="M16 14.6c2.6.2 4.4 1.9 5.5 5.4" />
+        </svg>
+        <span>Usuarios</span>
+      </a>
+      <a *appSoloAdmin routerLink="/estadisticas" routerLinkActive="activo" class="nav-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
+        </svg>
+        <span>Estadísticas</span>
+      </a>
     </nav>
 
     @if (sesion.usuario(); as usuario) {
       <div class="jugador">
         <div class="avatar">
           @if (usuario.imagenPerfil) {
-            <img [src]="usuario.imagenPerfil" [alt]="'Foto de ' + usuario.nombreUsuario" />
+            <img appImagenRespaldo [src]="usuario.imagenPerfil" [alt]="'Foto de ' + usuario.nombreUsuario" />
           } @else {
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="8" r="4" />

@@ -2,7 +2,7 @@
   <header class="card-cabecera">
     <div class="avatar">
       @if (publicacion().autor.imagenPerfil) {
-        <img [src]="publicacion().autor.imagenPerfil" [alt]="'Foto de ' + publicacion().autor.nombreUsuario" />
+        <img appImagenRespaldo [src]="publicacion().autor.imagenPerfil" [alt]="'Foto de ' + publicacion().autor.nombreUsuario" />
       } @else {
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="8" r="4" />
@@ -17,8 +17,12 @@
           <span class="etiqueta-vos">Vos</span>
         }
       </span>
-      <time class="card-fecha" [attr.datetime]="publicacion().createdAt">
-        {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}
+      <time
+        class="card-fecha"
+        [attr.datetime]="publicacion().createdAt"
+        [attr.title]="publicacion().createdAt | date: 'dd/MM/yyyy HH:mm'"
+      >
+        {{ publicacion().createdAt | tiempoRelativo }}
       </time>
     </div>
       @if (puedeEliminar() && mostrarAcciones()) {

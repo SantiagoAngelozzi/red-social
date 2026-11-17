@@ -10,13 +10,15 @@ import { PublicacionesService } from '../../services/publicaciones.service';
 import { ComentariosService } from '../../services/comentarios.service';
 import { SesionService } from '../../services/sesion.service';
 import { mensajeDeError } from '../../services/mensaje-error';
+import { EdadPipe } from '../../pipes/edad.pipe';
+import { ImagenRespaldoDirective } from '../../directivas/imagen-respaldo.directive';
 
 const CANTIDAD_ULTIMAS = 3;
 const COMENTARIOS_POR_PUBLICACION = 3;
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [DatePipe, RouterLink, PublicacionCard, ComentarioItem],
+  imports: [DatePipe, RouterLink, PublicacionCard, ComentarioItem, EdadPipe, ImagenRespaldoDirective],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.scss',
 })

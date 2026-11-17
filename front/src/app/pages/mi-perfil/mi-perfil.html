@@ -3,7 +3,7 @@
     <section class="tarjeta-perfil">
       <div class="foto">
         @if (usuario.imagenPerfil) {
-          <img [src]="usuario.imagenPerfil" [alt]="'Foto de ' + usuario.nombreUsuario" />
+          <img appImagenRespaldo [src]="usuario.imagenPerfil" [alt]="'Foto de ' + usuario.nombreUsuario" />
         } @else {
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="8" r="4" />
@@ -31,7 +31,7 @@
         </div>
         <div class="dato">
           <dt>Fecha de nacimiento</dt>
-          <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
+          <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }} ({{ usuario.fechaNacimiento | edad }})</dd>
         </div>
         @if (usuario.createdAt) {
           <div class="dato">

@@ -1,7 +1,7 @@
 <article class="comentario" [class.mio]="esMio()">
   <div class="avatar" aria-hidden="true">
     @if (comentario().autor.imagenPerfil) {
-      <img [src]="comentario().autor.imagenPerfil" alt="" />
+      <img appImagenRespaldo [src]="comentario().autor.imagenPerfil" alt="" />
     } @else {
       <svg viewBox="0 0 24 24">
         <circle cx="12" cy="8" r="4" />
@@ -16,8 +16,12 @@
       @if (esMio()) {
         <span class="etiqueta-vos">Vos</span>
       }
-      <time class="fecha" [attr.datetime]="comentario().createdAt">
-        {{ comentario().createdAt | date: 'dd/MM/yyyy HH:mm' }}
+      <time
+        class="fecha"
+        [attr.datetime]="comentario().createdAt"
+        [attr.title]="comentario().createdAt | date: 'dd/MM/yyyy HH:mm'"
+      >
+        {{ comentario().createdAt | tiempoRelativo }}
       </time>
       @if (comentario().modificado) {
         <span class="editado" [attr.title]="'Editado el ' + (comentario().updatedAt | date: 'dd/MM/yyyy HH:mm')">
@@ -43,6 +47,7 @@
     @if (editando()) {
       <div class="edicion">
         <textarea
+          appAutofoco
           class="campo-input"
           [formControl]="texto"
           rows="2"

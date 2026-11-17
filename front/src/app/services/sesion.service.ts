@@ -22,15 +22,9 @@ export class SesionService {
   validada = false;
 
   private temporizadorAviso?: ReturnType<typeof setTimeout>;
-  private temporizadorFin?: ReturnType<typeof setTimeout>;
 
   constructor() {
-    const vence = this.vencimiento();
-    if (vence !== null && vence <= Date.now()) {
-      this.cerrar();
-    } else {
-      this.programarVencimiento();
-    }
+    this.programarVencimiento();
   }
 
   iniciar(usuario: Usuario, token: string): void {
@@ -47,7 +41,6 @@ export class SesionService {
 
   cerrar(): void {
     clearTimeout(this.temporizadorAviso);
-    clearTimeout(this.temporizadorFin);
     this.avisoVencimiento.set(false);
     this.validada = false;
     this._usuario.set(null);
@@ -88,7 +81,6 @@ export class SesionService {
 
   private programarVencimiento(): void {
     clearTimeout(this.temporizadorAviso);
-    clearTimeout(this.temporizadorFin);
 
     const vence = this.vencimiento();
     if (vence === null) return;
@@ -98,7 +90,6 @@ export class SesionService {
       () => this.avisoVencimiento.set(true),
       Math.max(0, restante - AVISO_ANTES_MS),
     );
-    this.temporizadorFin = setTimeout(() => this.vencer(), Math.max(0, restante));
   }
 
   private vencimiento(): number | null {

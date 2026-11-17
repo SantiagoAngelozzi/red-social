@@ -1,0 +1,91 @@
+<div class="panel">
+  <header>
+    <h1 class="titulo">Estadísticas</h1>
+    @if (rango(); as actual) {
+      <p class="bajada">Actividad del {{ formatear(actual.desde) }} al {{ formatear(actual.hasta) }}</p>
+    }
+  </header>
+
+  <form class="filtros" [formGroup]="form" (ngSubmit)="cargar()" novalidate>
+    <div class="campo">
+      <label class="campo-label" for="es-desde">Desde</label>
+      <input id="es-desde" class="campo-input" type="date" formControlName="desde" [max]="hoy" />
+    </div>
+    <div class="campo">
+      <label class="campo-label" for="es-hasta">Hasta</label>
+      <input id="es-hasta" class="campo-input" type="date" formControlName="hasta" [max]="hoy" />
+    </div>
+    <button type="submit" class="btn btn-chico" [disabled]="cargando()">
+      <span>Aplicar</span>
+    </button>
+
+    <div class="rapidas">
+      @for (dias of opcionesRapidas; track dias) {
+        <button type="button" class="chip" [disabled]="cargando()" (click)="ultimosDias(dias)">
+          Últimos {{ dias }} días
+        </button>
+      }
+    </div>
+
+    @if (form.hasError('rangoInvalido')) {
+      <p class="campo-error completo">La fecha "desde" no puede ser posterior a "hasta".</p>
+    }
+  </form>
+
+  @if (error()) {
+    <div class="aviso aviso-error" role="alert">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Cargando estadísticas...</p>
+  } @else {
+    <div class="resumen">
+      <div class="dato">
+        <span class="dato-numero">{{ totalPublicaciones() }}</span>
+        <span class="dato-texto">publicaciones</span>
+      </div>
+      <div class="dato">
+        <span class="dato-numero">{{ totalComentarios() }}</span>
+        <span class="dato-texto">comentarios</span>
+      </div>
+    </div>
+
+    <div class="graficos">
+      <section class="tarjeta ancha">
+        <h2 class="tarjeta-titulo">Comentarios por día</h2>
+        <p class="tarjeta-bajada">Cuántos comentarios se hicieron cada día del lapso.</p>
+        @if (totalComentarios() > 0) {
+          <div class="lienzo">
+            <app-grafico [tipo]="'line'" [etiquetas]="lineas().etiquetas" [valores]="lineas().valores" nombreSerie="Comentarios" />
+          </div>
+        } @else {
+          <p class="vacio">No hubo comentarios en este lapso.</p>
+        }
+      </section>
+
+      <section class="tarjeta">
+        <h2 class="tarjeta-titulo">Publicaciones por usuario</h2>
+        <p class="tarjeta-bajada">Quién publicó más en el lapso.</p>
+        @if (totalPublicaciones() > 0) {
+          <div class="lienzo">
+            <app-grafico [tipo]="'bar'" [etiquetas]="barras().etiquetas" [valores]="barras().valores" nombreSerie="Publicaciones" />
+          </div>
+        } @else {
+          <p class="vacio">No hubo publicaciones en este lapso.</p>
+        }
+      </section>
+
+      <section class="tarjeta">
+        <h2 class="tarjeta-titulo">Comentarios por publicación</h2>
+        <p class="tarjeta-bajada">Las {{ 5 }} publicaciones más comentadas.</p>
+        @if (torta().valores.length > 0) {
+          <div class="lienzo">
+            <app-grafico [tipo]="'pie'" [etiquetas]="torta().etiquetas" [valores]="torta().valores" nombreSerie="Comentarios" />
+          </div>
+        } @else {
+          <p class="vacio">Ninguna publicación recibió comentarios en este lapso.</p>
+        }
+      </section>
+    </div>
+  }
+</div>

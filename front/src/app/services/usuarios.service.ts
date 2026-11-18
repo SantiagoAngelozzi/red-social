@@ -24,4 +24,8 @@ export class UsuariosService {
   habilitar(id: string): Observable<Usuario> {
     return this.http.post<Usuario>(`${this.api}/${id}/habilitar`, {});
   }
+
+  editarPerfil(datos: FormData): Observable<Usuario> {
+    return this.http.patch<Usuario>(`${environment.apiUrl}/perfil`, datos);
+  }
 }

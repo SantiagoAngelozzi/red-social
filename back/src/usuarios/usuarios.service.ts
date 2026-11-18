@@ -6,6 +6,7 @@ import { Usuario } from './schemas/usuario.schema.js';
 import type { UsuarioDocument } from './schemas/usuario.schema.js';
 import { FileService } from '../file/file.service.js';
 import { RegistroDto } from '../auth/dto/registro.dto.js';
+import { EditarPerfilDto } from './dto/editar-perfil.dto.js';
 
 const EDAD_MINIMA = 13;
 const CARPETA_PERFILES = 'rocket-social/perfiles';
@@ -37,13 +38,7 @@ export class UsuariosService {
   }
 
   async registrar(datos: RegistroDto, imagen?: Express.Multer.File, perfil: PerfilUsuario = 'usuario') {
-    const nacimiento = new Date(datos.fechaNacimiento);
-    if (nacimiento > new Date()) {
-      throw new BadRequestException('La fecha de nacimiento no puede ser futura');
-    }
-    if (this.calcularEdad(nacimiento) < EDAD_MINIMA) {
-      throw new BadRequestException(`Tenés que tener al menos ${EDAD_MINIMA} años para registrarte`);
-    }
+    const nacimiento = this.validarNacimiento(datos.fechaNacimiento);
 
     if (await this.buscarPorCorreo(datos.correo)) {
       throw new ConflictException('Ese correo ya está registrado');
@@ -65,6 +60,27 @@ export class UsuariosService {
       imagenPerfil,
       perfil,
     });
+  }
+
+  async editarPerfil(usuario: UsuarioDocument, datos: EditarPerfilDto, imagen?: Express.Multer.File) {
+    if (datos.nombre !== undefined) {
+      usuario.nombre = datos.nombre.trim();
+    }
+    if (datos.apellido !== undefined) {
+      usuario.apellido = datos.apellido.trim();
+    }
+    if (datos.descripcion !== undefined) {
+      usuario.descripcion = datos.descripcion.trim();
+    }
+    if (datos.fechaNacimiento !== undefined) {
+      usuario.fechaNacimiento = this.validarNacimiento(datos.fechaNacimiento);
+    }
+    if (imagen) {
+      usuario.imagenPerfil = await this.fileService.cloudinaryUploader(imagen, CARPETA_PERFILES);
+    }
+
+    await usuario.save();
+    return this.sinPassword(usuario);
   }
 
   async deshabilitar(id: string, administrador: UsuarioDocument) {
@@ -91,6 +107,17 @@ export class UsuariosService {
       throw new NotFoundException('El usuario no existe');
     }
     return usuario;
+  }
+
+  private validarNacimiento(fecha: string): Date {
+    const nacimiento = new Date(fecha);
+    if (nacimiento > new Date()) {
+      throw new BadRequestException('La fecha de nacimiento no puede ser futura');
+    }
+    if (this.calcularEdad(nacimiento) < EDAD_MINIMA) {
+      throw new BadRequestException(`Tenés que tener al menos ${EDAD_MINIMA} años`);
+    }
+    return nacimiento;
   }
 
   private calcularEdad(nacimiento: Date): number {

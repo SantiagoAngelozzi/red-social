@@ -212,3 +212,9 @@
     url('/fondos/fondo-feed.jpg') center / cover no-repeat;
   pointer-events: none;
 }
+
+.acciones-perfil {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}

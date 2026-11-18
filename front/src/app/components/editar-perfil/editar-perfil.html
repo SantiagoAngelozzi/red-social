@@ -1,0 +1,73 @@
+<form class="formulario" [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+  <h2 class="formulario-titulo">Editar perfil</h2>
+
+  @if (errorServidor()) {
+    <div class="aviso aviso-error" role="alert">{{ errorServidor() }}</div>
+  }
+
+  <div class="foto-fila">
+    <div class="foto">
+      @if (vistaPrevia()) {
+        <img appImagenRespaldo [src]="vistaPrevia()" alt="Tu foto de perfil" />
+      } @else {
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c1.5-4.5 4.5-7 8-7s6.5 2.5 8 7" />
+        </svg>
+      }
+    </div>
+    <div>
+      <label class="btn btn-fantasma btn-chico">
+        <span>Cambiar foto</span>
+        <input type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" (change)="elegirImagen($event)" />
+      </label>
+      <p class="ayuda">JPG, PNG o WEBP de hasta 2 MB.</p>
+      @if (errorImagen()) {
+        <p class="campo-error">{{ errorImagen() }}</p>
+      }
+    </div>
+  </div>
+
+  <div class="grilla">
+    <div class="campo" [class.invalido]="mostrarError('nombre')">
+      <label class="campo-label" for="ep-nombre">Nombre</label>
+      <input id="ep-nombre" class="campo-input" formControlName="nombre" />
+      @if (mostrarError('nombre')) {
+        <p class="campo-error">Obligatorio, solo letras, hasta 50.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('apellido')">
+      <label class="campo-label" for="ep-apellido">Apellido</label>
+      <input id="ep-apellido" class="campo-input" formControlName="apellido" />
+      @if (mostrarError('apellido')) {
+        <p class="campo-error">Obligatorio, solo letras, hasta 50.</p>
+      }
+    </div>
+
+    <div class="campo" [class.invalido]="mostrarError('fechaNacimiento')">
+      <label class="campo-label" for="ep-fecha">Fecha de nacimiento</label>
+      <input id="ep-fecha" class="campo-input" type="date" formControlName="fechaNacimiento" [max]="hoy" />
+      @if (mostrarError('fechaNacimiento')) {
+        <p class="campo-error">Obligatoria, no futura y de al menos 13 años.</p>
+      }
+    </div>
+
+    <div class="campo completo" [class.invalido]="mostrarError('descripcion')">
+      <label class="campo-label" for="ep-descripcion">Descripción</label>
+      <textarea id="ep-descripcion" class="campo-input" formControlName="descripcion" rows="3" maxlength="200"></textarea>
+      <span class="contador">{{ form.controls.descripcion.value.length }}/200</span>
+    </div>
+  </div>
+
+  <p class="ayuda">El correo y el nombre de usuario no se pueden cambiar.</p>
+
+  <div class="acciones">
+    <button type="button" class="btn btn-fantasma" [disabled]="guardando()" (click)="cancelado.emit()">
+      <span>Cancelar</span>
+    </button>
+    <button type="submit" class="btn btn-naranja" [disabled]="guardando()">
+      <span>{{ guardando() ? 'Guardando...' : 'Guardar cambios' }}</span>
+    </button>
+  </div>
+</form>

@@ -1,5 +1,12 @@
 <div class="perfil">
   @if (sesion.usuario(); as usuario) {
+    @if (aviso()) {
+      <div class="aviso aviso-ok" role="status">{{ aviso() }}</div>
+    }
+
+    @if (editando()) {
+      <app-editar-perfil [usuario]="usuario" (guardado)="alGuardar($event)" (cancelado)="editando.set(false)" />
+    } @else {
     <section class="tarjeta-perfil">
       <div class="foto">
         @if (usuario.imagenPerfil) {
@@ -44,7 +51,14 @@
           <dd>{{ totalPublicaciones() }}</dd>
         </div>
       </dl>
+
+      <div class="acciones-perfil">
+        <button type="button" class="btn btn-fantasma btn-chico" (click)="editando.set(true)">
+          <span>Editar perfil</span>
+        </button>
+      </div>
     </section>
+    }
 
     <section class="seccion">
       <h2 class="seccion-titulo">Mis últimas publicaciones</h2>

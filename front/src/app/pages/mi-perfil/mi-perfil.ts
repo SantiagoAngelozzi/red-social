@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -12,17 +12,19 @@ import { SesionService } from '../../services/sesion.service';
 import { mensajeDeError } from '../../services/mensaje-error';
 import { EdadPipe } from '../../pipes/edad.pipe';
 import { ImagenRespaldoDirective } from '../../directivas/imagen-respaldo.directive';
+import { EditarPerfil } from '../../components/editar-perfil/editar-perfil';
+import { Usuario } from '../../models/usuario';
 
 const CANTIDAD_ULTIMAS = 3;
 const COMENTARIOS_POR_PUBLICACION = 3;
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [DatePipe, RouterLink, PublicacionCard, ComentarioItem, EdadPipe, ImagenRespaldoDirective],
+  imports: [DatePipe, RouterLink, PublicacionCard, ComentarioItem, EdadPipe, ImagenRespaldoDirective, EditarPerfil],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.scss',
 })
-export class MiPerfil implements OnInit {
+export class MiPerfil implements OnInit, OnDestroy {
   private readonly publicacionesService = inject(PublicacionesService);
   private readonly comentariosService = inject(ComentariosService);
   readonly sesion = inject(SesionService);
@@ -32,8 +34,29 @@ export class MiPerfil implements OnInit {
   cargando = signal(false);
   error = signal<string | null>(null);
   comentarios = signal<Record<string, RespuestaComentarios>>({});
+  editando = signal(false);
+  aviso = signal<string | null>(null);
+
+  private temporizadorAviso?: ReturnType<typeof setTimeout>;
 
   ngOnInit(): void {
+    this.cargar();
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.temporizadorAviso);
+  }
+
+  alGuardar(usuario: Usuario): void {
+    this.sesion.actualizarUsuario(usuario);
+    this.editando.set(false);
+    this.cargar();
+    this.aviso.set('Perfil actualizado.');
+    clearTimeout(this.temporizadorAviso);
+    this.temporizadorAviso = setTimeout(() => this.aviso.set(null), 3000);
+  }
+
+  private cargar(): void {
     const usuario = this.sesion.usuario();
     if (!usuario) return;
 

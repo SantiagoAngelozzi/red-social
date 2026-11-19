@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Logo } from '../../shared/logo/logo';
-import { Modal } from '../../shared/modal/modal';
+import { AvisoSesion } from '../../components/aviso-sesion/aviso-sesion';
 import { SesionService } from '../../services/sesion.service';
 import { SoloAdminDirective } from '../../directivas/solo-admin.directive';
 import { ImagenRespaldoDirective } from '../../directivas/imagen-respaldo.directive';
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo, Modal, SoloAdminDirective, ImagenRespaldoDirective],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo, AvisoSesion, SoloAdminDirective, ImagenRespaldoDirective],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
